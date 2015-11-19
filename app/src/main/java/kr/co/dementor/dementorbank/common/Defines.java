@@ -13,6 +13,8 @@ public class Defines
     // public static final String DEFAULT_HOST =
     // "http://mbetest.shinhan.com:38300"; // 신한서버.
 
+    public static final int MAX_KEY_CAPACITY = 4;
+
     public static final ArrayList<Integer> RES_ID_NUM = new ArrayList<Integer>
             (
                     Arrays.asList
