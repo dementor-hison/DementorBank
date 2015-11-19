@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DementorBank</string>
+    <string name="title_regist">그래픽인증 키설정</string>
+    <string name="title_auth">그래픽인증</string>
+    <string name="dialog_msg_need_regist">그래픽 키 설정이 되어있지 않습니다.\n인증화면으로 이동합니다.</string>
+    <string name="dialog_button_ok">확인</string>
+    <string name="dialog_button_cancel">종료</string>
+    <string name="toast_msg_regist_key_wrong">자물쇠키와 동일한 값을 설정 할 수 없습니다.</string>
+
+    <string name="preference_key_is_regist">isRegisted</string>
+</resources>

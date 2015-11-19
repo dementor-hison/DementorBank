@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color247247247"
+              android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ibBack"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/top_arrow"/>
+
+    <!--dummy... ibHelp same width-->
+    <View
+        android:layout_width="34dp"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/title_regist"
+        android:textColor="@color/color136136136"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:typeface="normal"/>
+
+    <ImageButton
+        android:id="@+id/ibRefresh"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/refresh"/>
+
+    <ImageButton
+        android:id="@+id/ibHelp"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/quest"/>
+</LinearLayout>

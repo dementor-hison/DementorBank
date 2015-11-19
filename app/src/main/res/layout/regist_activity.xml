@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <kr.co.dementor.dementorbank.ui.TopView
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+    </kr.co.dementor.dementorbank.ui.TopView>
+
+    <!-- middle  start  height:304px-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="26.80"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:background="@color/color247247247">
+        <!-- left side width: 386px -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="58.48"
+            android:orientation="vertical">
+            <!-- dummy height:34px -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="14"/>
+            <!-- height: 100px -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="42"
+                android:orientation="horizontal">
+                <!--width: 72px -->
+                <ImageButton
+                    android:id="@+id/ibPrevCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="18.65"
+                    android:src="@drawable/cat_arrow_l_sel"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"/>
+                <!--width: 100px -->
+                <ImageButton
+                    android:id="@+id/ibCategoryWord"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="25.9"
+                    android:src="@drawable/cat_eng_sel"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"/>
+                <!--width: 24px -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"/>
+                <!--width: 100px -->
+                <ImageButton
+                    android:id="@+id/ibCategoryPrivate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="25.9"
+                    android:src="@drawable/cat_cus_sel"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"/>
+                <!--width: 72px -->
+                <ImageButton
+                    android:id="@+id/ibNextCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="18.65"
+                    android:src="@drawable/cat_arrow_r_sel"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"/>
+                <!--width: 18px -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"/>
+            </LinearLayout>
+            <!-- dummy height:32px -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="13"/>
+            <!-- text height:36px -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="15"
+                android:src="@drawable/regist_text1"
+                android:scaleType="fitXY"/>
+            <!-- text height:36px -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="15"
+                android:src="@drawable/regist_text2"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+
+        <!-- right side width: 274px -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="41.51">
+
+            <ImageView
+                android:id="@+id/ivStep"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/list_step"
+                android:scaleType="fitXY"/>
+            <ImageView
+                android:id="@+id/ivStepAnim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/list_step_anim"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+    </LinearLayout>
+    <!-- middle  end-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:src="@color/color220220220"/>
+    <!-- height:830px-->
+    <kr.co.dementor.dementorbank.ui.CustomGridView
+        android:id="@+id/gvCustomGridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="73.19"
+        android:padding="15dp"
+        android:background="@android:color/white">
+    </kr.co.dementor.dementorbank.ui.CustomGridView>
+
+</LinearLayout>
