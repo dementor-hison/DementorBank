@@ -120,8 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/list_step_anim"
-                android:scaleType="fitXY"
-                android:visibility="gone"/>
+                android:scaleType="fitXY"/>
         </FrameLayout>
 
     </LinearLayout>

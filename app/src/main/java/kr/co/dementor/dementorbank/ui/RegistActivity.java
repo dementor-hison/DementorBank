@@ -23,74 +23,15 @@ import kr.co.dementor.dementorbank.common.LogTrace;
  */
 public class RegistActivity extends FragmentActivity
 {
-    private Context        mContext        = this;
-    private int[]          mKeys           = new int[4];
-    private TopView        mTopview        = null;
-    private CustomGridView mCustomGridView = null;
-    private ImageView      m_ivStep        = null;
-    private ImageView      m_ivStepAnim    = null;
-    private Animation      mAniFadeOut     = null;
-    private Animation      mAniFadeIn      = null;
-    Animation.AnimationListener mAnimationFadeInListener = new Animation.AnimationListener()
-    {
-        @Override
-        public void onAnimationStart(Animation animation)
-        {
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation)
-        {
-            Defines.RegistState currentState = Defines.RegistState.values()[m_ivStep.getDrawable().getLevel()];
-
-            switch (currentState)
-            {
-                case SELECTED_NONE:
-                    m_ivStep.setImageLevel(currentState.nextState().getValue());
-                    break;
-
-                case SELECTED_LOCK:
-                    m_ivStep.setImageLevel(currentState.nextState().getValue());
-                    break;
-
-                case SELECTED_KEY1:
-                    m_ivStep.setImageLevel(currentState.nextState().getValue());
-                    break;
-
-                case SELECTED_KEY2:
-                    m_ivStep.setImageLevel(currentState.nextState().getValue());
-                    break;
-
-                case SELECTED_KEY3:
-                default:
-                    LogTrace.i("What??0_o");
-                    break;
-            }
-
-            m_ivStepAnim.startAnimation(mAniFadeOut);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {}
-    };
-
-    Animation.AnimationListener mAnimationFadeOutListener = new Animation.AnimationListener()
-    {
-        @Override
-        public void onAnimationStart(Animation animation) {}
-
-        @Override
-        public void onAnimationEnd(Animation animation)
-        {
-            m_ivStepAnim.setVisibility(ImageView.GONE);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {}
-    };
-
-    private ImageButton m_ibCategoryPrivate = null;
-    private ImageButton m_ibCategoryWord    = null;
+    private Context        mContext            = this;
+    private int[]          mKeys               = new int[4];
+    private TopView        mTopview            = null;
+    private CustomGridView mCustomGridView     = null;
+    private ImageView      m_ivStep            = null;
+    private ImageView      m_ivStepAnim        = null;
+    private Animation      mAniFadeInOut       = null;
+    private ImageButton    m_ibCategoryPrivate = null;
+    private ImageButton    m_ibCategoryWord    = null;
     CustomGridView.OnItemClickListener mOnItemClickListener = new CustomGridView.OnItemClickListener()
     {
         @Override
@@ -139,11 +80,8 @@ public class RegistActivity extends FragmentActivity
                     LogTrace.i("What??0_o");
                     break;
             }
-            m_ivStepAnim.setImageLevel(currentState.getValue());
-
-            m_ivStepAnim.setVisibility(ImageView.VISIBLE);
-
-            m_ivStepAnim.startAnimation(mAniFadeIn);
+            m_ivStep.setImageLevel(currentState.nextState().getValue());
+            m_ivStepAnim.setImageLevel(currentState.nextState().getValue());
         }
     };
     TopView.OnTopViewListener          mOnTopViewListener   = new TopView.OnTopViewListener()
@@ -285,17 +223,16 @@ public class RegistActivity extends FragmentActivity
 
         mCustomGridView.setDragable(false);
 
-        mAniFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-        mAniFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-
-        mAniFadeIn.setAnimationListener(mAnimationFadeInListener);
-        mAniFadeOut.setAnimationListener(mAnimationFadeOutListener);
+        mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
     }
 
 
     private void resetRegist()
     {
         m_ivStep.setImageLevel(Defines.RegistState.SELECTED_NONE.getValue());
+        m_ivStepAnim.setImageLevel(Defines.RegistState.SELECTED_NONE.getValue());
+        m_ivStepAnim.startAnimation(mAniFadeInOut);
+
         m_ibCategoryWord.setSelected(true);
         m_ibCategoryPrivate.setSelected(false);
         mKeys[Defines.ImagePosition.LOCK] = 0;
