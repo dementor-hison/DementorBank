@@ -27,18 +27,8 @@ public class AuthActivity extends FragmentActivity
         setContentView(R.layout.auth_activity);
 
         mContext = this;
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(getString(R.string.preference_key_is_regist), false);
-        editor.commit();
 
         boolean isKeyRegisted = pref.getBoolean(getString(R.string.preference_key_is_regist), false);
         if(isKeyRegisted == false)
@@ -48,11 +38,20 @@ public class AuthActivity extends FragmentActivity
         }
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
+
     private AlertDialog mAlertDialog = null;
+
     private void showRegistDialog()
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+
         dialogBuilder.setMessage(R.string.dialog_msg_need_regist);
+
         dialogBuilder.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener()
         {
             @Override
@@ -61,7 +60,7 @@ public class AuthActivity extends FragmentActivity
                 Intent intent = new Intent(mContext, RegistActivity.class);
                 startActivity(intent);
 
-                if(mAlertDialog != null && mAlertDialog.isShowing())
+                if (mAlertDialog != null && mAlertDialog.isShowing())
                 {
                     mAlertDialog.dismiss();
                 }
@@ -86,19 +85,6 @@ public class AuthActivity extends FragmentActivity
 
         mAlertDialog = dialogBuilder.show();
     }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-    }
-
 
     CustomGridView.OnDragListener mOnDragListener = new CustomGridView.OnDragListener()
     {

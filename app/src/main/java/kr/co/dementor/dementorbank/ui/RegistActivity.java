@@ -1,6 +1,7 @@
 package kr.co.dementor.dementorbank.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,15 +24,13 @@ import kr.co.dementor.dementorbank.common.LogTrace;
  */
 public class RegistActivity extends FragmentActivity
 {
-    private Context        mContext            = this;
-    private int[]          mKeys               = new int[4];
-    private TopView        mTopview            = null;
-    private CustomGridView mCustomGridView     = null;
-    private ImageView      m_ivStep            = null;
-    private ImageView      m_ivStepAnim        = null;
-    private Animation      mAniFadeInOut       = null;
-    private ImageButton    m_ibCategoryPrivate = null;
-    private ImageButton    m_ibCategoryWord    = null;
+    private Context            mContext            = this;
+    private ArrayList<Integer> mKeys               = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
+    private TopView            mTopview            = null;
+    private CustomGridView     mCustomGridView     = null;
+    private ImageView          m_ivStep            = null;
+    private ImageView          m_ivStepAnim        = null;
+    private Animation          mAniFadeInOut       = null;
     CustomGridView.OnItemClickListener mOnItemClickListener = new CustomGridView.OnItemClickListener()
     {
         @Override
@@ -47,28 +46,28 @@ public class RegistActivity extends FragmentActivity
                 return;
             }
 
-            if (currentState.getValue() >= mKeys.length)
+            if (currentState.getValue() >= Defines.MAX_KEY_CAPACITY)
             {
-                LogTrace.i("Not invalid...");
+                LogTrace.i("Not invalid...currentState.getValue() : " + currentState.getValue() + "mKeys.size() : " + mKeys.size());
                 return;
             }
 
             switch (currentState)
             {
                 case SELECTED_NONE:
-                    mKeys[Defines.ImagePosition.LOCK] = imageSrcId;
+                    mKeys.add(Defines.ImagePosition.LOCK, imageSrcId);
                     break;
 
                 case SELECTED_LOCK:
-                    mKeys[Defines.ImagePosition.KEY1] = imageSrcId;
+                    mKeys.add(Defines.ImagePosition.KEY1, imageSrcId);
                     break;
 
                 case SELECTED_KEY1:
-                    mKeys[Defines.ImagePosition.KEY2] = imageSrcId;
+                    mKeys.add(Defines.ImagePosition.KEY2, imageSrcId);
                     break;
 
                 case SELECTED_KEY2:
-                    mKeys[Defines.ImagePosition.KEY3] = imageSrcId;
+                    mKeys.add(Defines.ImagePosition.KEY3, imageSrcId);
 
                     resetRegist();
 
@@ -104,6 +103,8 @@ public class RegistActivity extends FragmentActivity
             Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
         }
     };
+    private ImageButton        m_ibCategoryPrivate = null;
+    private ImageButton        m_ibCategoryWord    = null;
     View.OnClickListener               mOnClickListener     = new View.OnClickListener()
     {
         @Override
@@ -138,7 +139,16 @@ public class RegistActivity extends FragmentActivity
         SharedPreferences        pref   = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(getString(R.string.preference_key_is_regist), true);
+        editor.putInt(getString(R.string.preference_key_lock_res_id), mKeys.get(Defines.ImagePosition.LOCK));
+        editor.putInt(getString(R.string.preference_key_key1_res_id), mKeys.get(Defines.ImagePosition.KEY1));
+        editor.putInt(getString(R.string.preference_key_key2_res_id), mKeys.get(Defines.ImagePosition.KEY2));
+        editor.putInt(getString(R.string.preference_key_key3_res_id), mKeys.get(Defines.ImagePosition.KEY3));
         editor.commit();
+
+        Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 
     private boolean isValid(int resID)
@@ -152,8 +162,8 @@ public class RegistActivity extends FragmentActivity
         }
         else
         {
-            LogTrace.d("resID : " + resID + " lock : " + mKeys[Defines.ImagePosition.LOCK]);
-            result = mKeys[Defines.ImagePosition.LOCK] == resID ? false : true;
+            LogTrace.d("resID : " + resID + " lock : " + mKeys.get(Defines.ImagePosition.LOCK));
+            result = !mKeys.contains(resID);
         }
 
         return result;
@@ -208,36 +218,41 @@ public class RegistActivity extends FragmentActivity
 
         m_ibNextCategory = (ImageButton) findViewById(R.id.ibNextCategory);
 
-        m_ibCategoryPrivate.setOnClickListener(mOnClickListener);
-        m_ibCategoryWord.setOnClickListener(mOnClickListener);
-        m_ibPrevCategory.setOnClickListener(mOnClickListener);
-        m_ibNextCategory.setOnClickListener(mOnClickListener);
-
         mTopview = (TopView) findViewById(R.id.topView);
 
-        mTopview.setOnTopViewListener(mOnTopViewListener);
-
         mCustomGridView = (CustomGridView) findViewById(R.id.gvCustomGridView);
+
+        m_ibCategoryPrivate.setOnClickListener(mOnClickListener);
+
+        m_ibCategoryWord.setOnClickListener(mOnClickListener);
+
+        m_ibPrevCategory.setOnClickListener(mOnClickListener);
+
+        m_ibNextCategory.setOnClickListener(mOnClickListener);
+
+        mTopview.setOnTopViewListener(mOnTopViewListener);
 
         mCustomGridView.setOnItemClickListener(mOnItemClickListener);
 
         mCustomGridView.setDragable(false);
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
+
+        m_ibCategoryWord.setSelected(true);
+
+        m_ibCategoryPrivate.setSelected(false);
+
     }
 
 
     private void resetRegist()
     {
         m_ivStep.setImageLevel(Defines.RegistState.SELECTED_NONE.getValue());
+
         m_ivStepAnim.setImageLevel(Defines.RegistState.SELECTED_NONE.getValue());
+
         m_ivStepAnim.startAnimation(mAniFadeInOut);
 
-        m_ibCategoryWord.setSelected(true);
-        m_ibCategoryPrivate.setSelected(false);
-        mKeys[Defines.ImagePosition.LOCK] = 0;
-        mKeys[Defines.ImagePosition.KEY1] = 0;
-        mKeys[Defines.ImagePosition.KEY2] = 0;
-        mKeys[Defines.ImagePosition.KEY3] = 0;
+        mKeys.clear();
     }
 }
