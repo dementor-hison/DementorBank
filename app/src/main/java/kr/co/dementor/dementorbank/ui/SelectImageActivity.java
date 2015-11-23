@@ -63,6 +63,8 @@ public class SelectImageActivity extends FragmentActivity
         public void OnBack()
         {
             setResult(Activity.RESULT_CANCELED);
+
+            finish();
         }
 
         @Override
