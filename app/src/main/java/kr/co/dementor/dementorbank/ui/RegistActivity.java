@@ -1,5 +1,6 @@
 package kr.co.dementor.dementorbank.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,8 +40,6 @@ public class RegistActivity extends FragmentActivity
         @Override
         public void OnItemClick(View view, int position, int imageSrcId)
         {
-            LogTrace.d("position : " + position + " , resId : " + imageSrcId);
-
             Defines.RegistStatus currentState = Defines.RegistStatus.values()[m_ivRegistStatus.getDrawable().getLevel()];
 
             if (isValid(imageSrcId) == false)
@@ -128,15 +127,22 @@ public class RegistActivity extends FragmentActivity
             {
                 case R.id.ibPrevCategory:
                 case R.id.ibCategoryWord:
-                    m_ibCategoryWord.setSelected(true);
-                    m_ibCategoryPrivate.setSelected(false);
+
+                    setNormalList();
+
                     break;
 
                 case R.id.ibNextCategory:
                 case R.id.ibCategoryPrivate:
-                    m_ibCategoryWord.setSelected(false);
-                    m_ibCategoryPrivate.setSelected(true);
-
+                    if(mSelectedPrivateItems != null && mSelectedPrivateItems.size() > 0)
+                    {
+                        setPrivateList();
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(RegistActivity.this, SelectImageActivity.class);
+                        startActivityForResult(intent, 0);
+                    }
 
                     break;
                 case R.id.ivStatus:
@@ -157,8 +163,9 @@ public class RegistActivity extends FragmentActivity
             }
         }
     };
-    private ImageButton m_ibPrevCategory = null;
-    private ImageButton m_ibNextCategory = null;
+    private ImageButton        m_ibPrevCategory = null;
+    private ImageButton        m_ibNextCategory = null;
+    private ArrayList<Integer> mSelectedPrivateItems= new ArrayList<Integer>();
 
     private void startConfirmActivity()
     {
@@ -184,7 +191,6 @@ public class RegistActivity extends FragmentActivity
 
         if (m_ivRegistStatus.getDrawable().getLevel() == Defines.RegistStatus.SELECTED_NONE.getValue())
         {
-            LogTrace.d("");
             result = true;
         }
         else
@@ -207,9 +213,7 @@ public class RegistActivity extends FragmentActivity
 
         resetRegist();
 
-        ArrayList<Integer> listItems = loadItemsForGridView();
-
-        mRegistGridView.setGridViewItems(listItems);
+        setNormalList();
     }
 
     @Override
@@ -220,9 +224,14 @@ public class RegistActivity extends FragmentActivity
         resetRegist();
     }
 
-    private ArrayList<Integer> loadItemsForGridView()
+    private ArrayList<Integer> loadItemsForGridView(ArrayList<Integer> fixedItems)
     {
         ArrayList<Integer> list = new ArrayList<Integer>();
+
+        if(fixedItems != null && fixedItems.size() > 0)
+        {
+            list.addAll(fixedItems);
+        }
 
         list.addAll(Defines.RES_ID_NUM);
         list.addAll(Defines.RES_ID_ENG);
@@ -274,11 +283,6 @@ public class RegistActivity extends FragmentActivity
         mRegistTopview.setConfirmButtonVisible(false);
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
-
-        m_ibCategoryWord.setSelected(true);
-
-        m_ibCategoryPrivate.setSelected(false);
-
     }
 
     private void resetRegist()
@@ -292,5 +296,50 @@ public class RegistActivity extends FragmentActivity
         mKeys.clear();
 
         m_actionPopup.clearHintImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        LogTrace.i("ResultCode : " + resultCode);
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK)
+        {
+            m_ibCategoryPrivate.setImageResource(R.drawable.cat_cus_sel_after);
+
+            mSelectedPrivateItems.clear();
+
+            mSelectedPrivateItems.addAll(data.getIntegerArrayListExtra("items"));
+
+            setPrivateList();
+        }
+
+        if(resultCode == Activity.RESULT_CANCELED)
+        {
+            m_ibCategoryPrivate.setImageResource(R.drawable.cat_cus_sel);
+
+            setNormalList();
+        }
+    }
+
+    private void setPrivateList()
+    {
+        mRegistGridView.setGridViewItems(loadItemsForGridView(mSelectedPrivateItems));
+
+        m_ibCategoryWord.setSelected(false);
+
+        m_ibCategoryPrivate.setSelected(true);
+    }
+
+    private void setNormalList()
+    {
+        mRegistGridView.setGridViewItems(loadItemsForGridView(null));
+
+        m_ibCategoryWord.setSelected(true);
+
+        m_ibCategoryPrivate.setSelected(false);
+
     }
 }

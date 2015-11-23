@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:top="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <kr.co.dementor.dementorbank.ui.TopView
+        android:id="@+id/selectImageTopview"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        top:titleText="개인화 이미지 선택"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <GridView
+            android:id="@+id/gvSelectImageGrid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="4"
+            android:drawingCacheQuality="low"
+            android:scrollingCache="false"
+            android:stretchMode="columnWidth"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideOverlay"
+            android:fadeScrollbars="false"
+            android:verticalSpacing="3dp"
+            android:horizontalSpacing="3dp"
+            android:listSelector="@android:color/transparent"/>
+
+        <ImageView
+            android:id="@+id/ivSelectScrollMore"
+            android:layout_width="65.5dp"
+            android:layout_height="28dp"
+            android:background="@drawable/d_arrow"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="15dp"/>
+    </FrameLayout>
+</LinearLayout>

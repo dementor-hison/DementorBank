@@ -91,6 +91,7 @@ public class TopView extends LinearLayout
         @Override
         public void onClick(View v)
         {
+            LogTrace.d("Click!!!");
             if (mOnTopViewListener == null)
             {
                 LogTrace.i("TopViewListener not set");

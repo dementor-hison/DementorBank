@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:descendantFocusability="blocksDescendants">
+
+    <kr.co.dementor.dementorbank.ui.SquareImageView
+        android:id="@+id/ivSelectGridItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
+
+    <CheckBox
+        android:id="@+id/cbSelectGridItemCheckBox"
+        android:layout_width="27.5dp"
+        android:layout_height="27.5dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:button="@drawable/img_check_sel"
+        android:clickable="false"/>
+
+</FrameLayout>
