@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 
 import kr.co.dementor.dementorbank.R;
 import kr.co.dementor.dementorbank.common.Defines;
@@ -212,6 +213,27 @@ public class AuthActivity extends FragmentActivity
 
     private ArrayList<Integer> generateRandomList(ArrayList<Integer> fixedIconList)
     {
+        ArrayList<Integer> resultList = new ArrayList<Integer>(Defines.MAX_AUTH_ICON_CAPACITY);
+
+        resultList.addAll(fixedIconList);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Set<String> set = pref.getStringSet(getString(R.string.preference_key_dummy_set), null);
+
+        for (String name : set)
+        {
+            resultList.add(getResources().getIdentifier(name, "drawable", getApplicationContext().getPackageName()));
+        }
+
+        Collections.shuffle(resultList);
+
+        return resultList;
+    }
+
+    /*
+    private ArrayList<Integer> generateRandomList(ArrayList<Integer> fixedIconList)
+    {
         ArrayList<Integer> resultList = new ArrayList<>(Defines.MAX_AUTH_ICON_CAPACITY);
 
         resultList.addAll(fixedIconList);
@@ -248,20 +270,36 @@ public class AuthActivity extends FragmentActivity
 
         return resultList;
     }
-
+*/
     private ArrayList<Integer> loadKeyData()
     {
         ArrayList<Integer> list = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        list.add(Defines.ImagePosition.LOCK, pref.getInt(getString(R.string.preference_key_lock_res_id), 0));
+        String strLock = pref.getString(getString(R.string.preference_key_lock_res_id), null);
 
-        list.add(Defines.ImagePosition.KEY1, pref.getInt(getString(R.string.preference_key_key1_res_id), 0));
+        String strKey1 = pref.getString(getString(R.string.preference_key_key1_res_id), null);
 
-        list.add(Defines.ImagePosition.KEY2, pref.getInt(getString(R.string.preference_key_key2_res_id), 0));
+        String strKey2 = pref.getString(getString(R.string.preference_key_key2_res_id), null);
 
-        list.add(Defines.ImagePosition.KEY3, pref.getInt(getString(R.string.preference_key_key3_res_id), 0));
+        String strKey3 = pref.getString(getString(R.string.preference_key_key3_res_id), null);
+
+        int lockId = getResources().getIdentifier(strLock, "drawable", getApplicationContext().getPackageName());
+
+        int key1Id = getResources().getIdentifier(strKey1, "drawable", getApplicationContext().getPackageName());
+
+        int key2Id = getResources().getIdentifier(strKey2, "drawable", getApplicationContext().getPackageName());
+
+        int key3Id = getResources().getIdentifier(strKey3, "drawable", getApplicationContext().getPackageName());
+
+        list.add(Defines.ImagePosition.LOCK, lockId);
+
+        list.add(Defines.ImagePosition.KEY1, key1Id);
+
+        list.add(Defines.ImagePosition.KEY2, key2Id);
+
+        list.add(Defines.ImagePosition.KEY3, key3Id);
 
         return list;
     }

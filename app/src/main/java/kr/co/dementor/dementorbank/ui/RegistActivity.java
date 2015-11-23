@@ -1,6 +1,5 @@
 package kr.co.dementor.dementorbank.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import kr.co.dementor.dementorbank.R;
 import kr.co.dementor.dementorbank.common.Defines;
@@ -26,10 +28,11 @@ import kr.co.dementor.dementorbank.common.LogTrace;
  */
 public class RegistActivity extends FragmentActivity
 {
-    private Context            mContext       = this;
-    private ArrayList<Integer> mKeys          = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
-    private TopView            mRegistTopview = null;
-    private ActionPopup        m_actionPopup  = null;
+    private Context            mContext = this;
+    private ArrayList<Integer> mKeys    = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
+
+    private TopView     mRegistTopview = null;
+    private ActionPopup m_actionPopup  = null;
 
     private CustomGridView mRegistGridView      = null;
     private ImageView      m_ivRegistStatus     = null;
@@ -110,7 +113,7 @@ public class RegistActivity extends FragmentActivity
         @Override
         public void OnHelp()
         {
-            Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
@@ -134,15 +137,8 @@ public class RegistActivity extends FragmentActivity
 
                 case R.id.ibNextCategory:
                 case R.id.ibCategoryPrivate:
-                    if(mSelectedPrivateItems != null && mSelectedPrivateItems.size() > 0)
-                    {
-                        setPrivateList();
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(RegistActivity.this, SelectImageActivity.class);
-                        startActivityForResult(intent, 0);
-                    }
+
+                    setPrivateList();
 
                     break;
                 case R.id.ivStatus:
@@ -163,9 +159,9 @@ public class RegistActivity extends FragmentActivity
             }
         }
     };
-    private ImageButton        m_ibPrevCategory = null;
-    private ImageButton        m_ibNextCategory = null;
-    private ArrayList<Integer> mSelectedPrivateItems= new ArrayList<Integer>();
+    private ImageButton        m_ibPrevCategory      = null;
+    private ImageButton        m_ibNextCategory      = null;
+    private ArrayList<Integer> mSelectedPrivateItems = new ArrayList<Integer>();
 
     private void startConfirmActivity()
     {
@@ -173,10 +169,39 @@ public class RegistActivity extends FragmentActivity
         SharedPreferences        pref   = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(getString(R.string.preference_key_is_regist), true);
-        editor.putInt(getString(R.string.preference_key_lock_res_id), mKeys.get(Defines.ImagePosition.LOCK));
-        editor.putInt(getString(R.string.preference_key_key1_res_id), mKeys.get(Defines.ImagePosition.KEY1));
-        editor.putInt(getString(R.string.preference_key_key2_res_id), mKeys.get(Defines.ImagePosition.KEY2));
-        editor.putInt(getString(R.string.preference_key_key3_res_id), mKeys.get(Defines.ImagePosition.KEY3));
+
+        String strLockName = getResources().getResourceName(mKeys.get(Defines.ImagePosition.LOCK));
+        String strKey1Name = getResources().getResourceName(mKeys.get(Defines.ImagePosition.KEY1));
+        String strKey2Name = getResources().getResourceName(mKeys.get(Defines.ImagePosition.KEY2));
+        String strKey3Name = getResources().getResourceName(mKeys.get(Defines.ImagePosition.KEY3));
+
+        editor.putString(getString(R.string.preference_key_lock_res_id), strLockName);
+        editor.putString(getString(R.string.preference_key_key1_res_id), strKey1Name);
+        editor.putString(getString(R.string.preference_key_key2_res_id), strKey2Name);
+        editor.putString(getString(R.string.preference_key_key3_res_id), strKey3Name);
+
+        ArrayList<Integer> list = mRegistGridView.getGridViewItems();
+
+        for (int i = 0; i < mKeys.size(); i++)
+        {
+            if(list.contains(mKeys.get(i)))
+            {
+                list.remove(mKeys.get(i));
+            }
+        }
+
+        Collections.shuffle(list);
+
+        Set<String> set = new HashSet<String>();
+
+        int i = 0;
+        while (set.size() < Defines.MAX_DUMMY_ICON_CAPACITY)
+        {
+            set.add(getResources().getResourceEntryName(list.get(i)));
+            i++;
+        }
+
+        editor.putStringSet(getString(R.string.preference_key_dummy_set), set);
         editor.commit();
 
         Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
@@ -224,18 +249,20 @@ public class RegistActivity extends FragmentActivity
         resetRegist();
     }
 
-    private ArrayList<Integer> loadItemsForGridView(ArrayList<Integer> fixedItems)
+    private ArrayList<Integer> loadItemsForGridView(boolean isPrivate)
     {
         ArrayList<Integer> list = new ArrayList<Integer>();
 
-        if(fixedItems != null && fixedItems.size() > 0)
+        if (isPrivate)
         {
-            list.addAll(fixedItems);
+            list.addAll(Defines.RES_ID_PRIVATE);
         }
-
-        list.addAll(Defines.RES_ID_NUM);
-        list.addAll(Defines.RES_ID_ENG);
-        list.addAll(Defines.RES_ID_HAN);
+        else
+        {
+            list.addAll(Defines.RES_ID_NUM);
+            list.addAll(Defines.RES_ID_ENG);
+            list.addAll(Defines.RES_ID_HAN);
+        }
 
         return list;
     }
@@ -298,6 +325,7 @@ public class RegistActivity extends FragmentActivity
         m_actionPopup.clearHintImage();
     }
 
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -307,8 +335,6 @@ public class RegistActivity extends FragmentActivity
 
         if(resultCode == Activity.RESULT_OK)
         {
-            m_ibCategoryPrivate.setImageResource(R.drawable.cat_cus_sel_after);
-
             mSelectedPrivateItems.clear();
 
             mSelectedPrivateItems.addAll(data.getIntegerArrayListExtra("items"));
@@ -318,15 +344,15 @@ public class RegistActivity extends FragmentActivity
 
         if(resultCode == Activity.RESULT_CANCELED)
         {
-            m_ibCategoryPrivate.setImageResource(R.drawable.cat_cus_sel);
-
             setNormalList();
         }
     }
-
+*/
     private void setPrivateList()
     {
-        mRegistGridView.setGridViewItems(loadItemsForGridView(mSelectedPrivateItems));
+        resetRegist();
+
+        mRegistGridView.setGridViewItems(loadItemsForGridView(true));
 
         m_ibCategoryWord.setSelected(false);
 
@@ -335,7 +361,9 @@ public class RegistActivity extends FragmentActivity
 
     private void setNormalList()
     {
-        mRegistGridView.setGridViewItems(loadItemsForGridView(null));
+        resetRegist();
+
+        mRegistGridView.setGridViewItems(loadItemsForGridView(false));
 
         m_ibCategoryWord.setSelected(true);
 

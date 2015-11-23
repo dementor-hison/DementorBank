@@ -12,4 +12,9 @@
     <string name="preference_key_key1_res_id">key1ResId</string>
     <string name="preference_key_key2_res_id">key2ResId</string>
     <string name="preference_key_key3_res_id">key3ResId</string>
+    <string name="preference_key_dummy_set">dummyImage</string>
+
+    <string name="preference_key_never_see_regist">never_see_regist</string>
+    <string name="preference_key_never_see_auth">never_see_auth</string>
+
 </resources>

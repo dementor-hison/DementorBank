@@ -266,6 +266,11 @@ public class CustomGridView extends FrameLayout
         mGridViewAdapter.notifyDataSetChanged();
     }
 
+    public ArrayList<Integer> getGridViewItems()
+    {
+        return  mGridViewAdapter.getListItems();
+    }
+
     public void setOnDragListener(CustomGridView.OnDragListener listener)
     {
         mOnCustomDragListener = listener;
