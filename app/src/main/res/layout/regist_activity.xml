@@ -4,126 +4,164 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <kr.co.dementor.dementorbank.ui.TopView
-        android:id="@+id/topView"
-        android:layout_width="match_parent"
-        android:layout_height="48dp">
-    </kr.co.dementor.dementorbank.ui.TopView>
-
-    <!-- middle  start  height:304px-->
-    <LinearLayout
+    <!-- height : 400px-->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="26.80"
-        android:orientation="horizontal"
-        android:padding="15dp"
-        android:background="@color/color247247247">
-        <!-- left side width: 386px -->
+        android:layout_weight="32.52">
+
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="58.48"
             android:orientation="vertical">
-            <!-- dummy height:34px -->
-            <View
+            <!-- topView height : 96px -->
+            <kr.co.dementor.dementorbank.ui.TopView
+                android:id="@+id/topView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="14"/>
-            <!-- height: 100px -->
+                android:layout_height="48dp">
+            </kr.co.dementor.dementorbank.ui.TopView>
+
+            <!-- middle  start  height:304px-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="42"
-                android:orientation="horizontal">
-                <!--width: 72px -->
-                <ImageButton
-                    android:id="@+id/ibPrevCategory"
+                android:layout_height="match_parent"
+                android:background="@color/color247247247"
+                android:orientation="horizontal"
+                android:padding="15dp">
+                <!-- left side width: 386px -->
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="18.65"
-                    android:src="@drawable/cat_arrow_l_sel"
-                    android:scaleType="fitXY"
-                    android:background="@android:color/transparent"/>
-                <!--width: 100px -->
-                <ImageButton
-                    android:id="@+id/ibCategoryWord"
+                    android:layout_weight="58.48"
+                    android:orientation="vertical">
+                    <!-- dummy height:34px -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="14"/>
+                    <!-- height: 100px -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="42"
+                        android:orientation="horizontal">
+                        <!--width: 72px -->
+                        <ImageButton
+                            android:id="@+id/ibPrevCategory"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="18.65"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/cat_arrow_l_sel"/>
+                        <!--width: 100px -->
+                        <ImageButton
+                            android:id="@+id/ibCategoryWord"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="25.9"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/cat_eng_sel"/>
+                        <!--width: 24px -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"/>
+                        <!--width: 100px -->
+                        <ImageButton
+                            android:id="@+id/ibCategoryPrivate"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="25.9"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/cat_cus_sel"/>
+                        <!--width: 72px -->
+                        <ImageButton
+                            android:id="@+id/ibNextCategory"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="18.65"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/cat_arrow_r_sel"/>
+                        <!--width: 18px -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"/>
+                    </LinearLayout>
+                    <!-- dummy height:32px -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="13"/>
+                    <!-- text height:36px -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="15"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/regist_text1"/>
+                    <!-- text height:36px -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="15"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/regist_text2"/>
+                </LinearLayout>
+
+                <!-- right side width: 274px -->
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="25.9"
-                    android:src="@drawable/cat_eng_sel"
-                    android:scaleType="fitXY"
-                    android:background="@android:color/transparent"/>
-                <!--width: 24px -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="6"/>
-                <!--width: 100px -->
-                <ImageButton
-                    android:id="@+id/ibCategoryPrivate"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="25.9"
-                    android:src="@drawable/cat_cus_sel"
-                    android:scaleType="fitXY"
-                    android:background="@android:color/transparent"/>
-                <!--width: 72px -->
-                <ImageButton
-                    android:id="@+id/ibNextCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="18.65"
-                    android:src="@drawable/cat_arrow_r_sel"
-                    android:scaleType="fitXY"
-                    android:background="@android:color/transparent"/>
-                <!--width: 18px -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="41.51">
+
+                    <ImageView
+                        android:id="@+id/ivStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_regist_status"/>
+
+                    <ImageView
+                        android:id="@+id/ivStatusAnim"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_regist_status_anim"/>
+                </FrameLayout>
             </LinearLayout>
-            <!-- dummy height:32px -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--height:196px-->
+            <kr.co.dementor.dementorbank.ui.ActionPopup
+                android:id="@+id/registActionPopup"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="49"
+                android:paddingLeft="6.5dp"
+                android:paddingRight="6.5dp"
+                android:paddingTop="6.5dp"
+                android:background="@drawable/hint_back_right"
+                android:visibility="gone"/>
+            <!--height:204px-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="13"/>
-            <!-- text height:36px -->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="15"
-                android:src="@drawable/regist_text1"
-                android:scaleType="fitXY"/>
-            <!-- text height:36px -->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="15"
-                android:src="@drawable/regist_text2"
-                android:scaleType="fitXY"/>
+                android:layout_weight="51"/>
         </LinearLayout>
 
-        <!-- right side width: 274px -->
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="41.51">
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/ivStep"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/list_step"
-                android:scaleType="fitXY"/>
-            <ImageView
-                android:id="@+id/ivStepAnim"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/list_step_anim"
-                android:scaleType="fitXY"/>
-        </FrameLayout>
 
-    </LinearLayout>
     <!-- middle  end-->
     <ImageView
         android:layout_width="match_parent"
@@ -134,9 +172,9 @@
         android:id="@+id/gvCustomGridView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="73.19"
-        android:padding="15dp"
-        android:background="@android:color/white">
+        android:layout_weight="67.47"
+        android:background="@android:color/white"
+        android:padding="15dp">
     </kr.co.dementor.dementorbank.ui.CustomGridView>
 
 </LinearLayout>

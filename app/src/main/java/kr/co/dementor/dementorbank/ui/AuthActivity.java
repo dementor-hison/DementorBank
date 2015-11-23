@@ -1,6 +1,5 @@
 package kr.co.dementor.dementorbank.ui;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,8 +7,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.common.Defines;
 import kr.co.dementor.dementorbank.common.LogTrace;
 
 /**
@@ -17,7 +26,162 @@ import kr.co.dementor.dementorbank.common.LogTrace;
  */
 public class AuthActivity extends FragmentActivity
 {
-    private Context mContext;
+    private boolean            m_isAuthSuccess      = true;
+    private int                m_dragImageId        = 0;
+    private ArrayList<Integer> mKeys                = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
+    private ArrayList<Integer> mListRandomIconResID = new ArrayList<>(Defines.MAX_AUTH_ICON_CAPACITY);
+    private TopView            mTopview             = null;
+    private CustomGridView     mCustomGridView      = null;
+    private ImageView          m_ivStatus           = null;
+    private ImageView          m_ivStatusAnim       = null;
+    private Animation          mAniFadeInOut        = null;
+    private AlertDialog        mAlertDialog         = null;
+    private ImageButton        m_ibRefresh          = null;
+    private ImageButton        m_ibSecurityLevel    = null;
+    private ImageButton        m_ibKeySetting       = null;
+    private ImageButton        m_ibIconSetting      = null;
+    private ActionPopup        m_actionPopup        = null;
+    CustomGridView.OnDragListener mOnDragListener    = new CustomGridView.OnDragListener()
+    {
+        @Override
+        public void OnDragStart(int position, int resId)
+        {
+            LogTrace.d("position : " + position + " , resID : " + resId);
+
+            m_dragImageId = resId;
+        }
+
+        @Override
+        public void OnDragEnd(int position, int currentLockId)
+        {
+            LogTrace.d("position : " + position + " , resID : " + currentLockId);
+
+            Defines.AuthStatus currentState = Defines.AuthStatus.values()[m_ivStatus.getDrawable().getLevel()];
+
+            switch (currentState)
+            {
+                case INSERT_NONE:
+                    m_ivStatus.setImageLevel(currentState.nextState().getValue());
+                    m_ivStatusAnim.setImageLevel(currentState.nextState().getValue());
+                    m_actionPopup.setHintImage(Defines.ImagePosition.LOCK, currentLockId);
+                    m_actionPopup.setHintImage(Defines.ImagePosition.KEY1, m_dragImageId);
+
+                    if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY1))
+                    {
+                        Toast.makeText(getApplicationContext(), "wrong key1", Toast.LENGTH_SHORT).show();
+                        m_isAuthSuccess = false;
+                    }
+                    break;
+
+                case INSERTED_KEY1:
+                    m_ivStatus.setImageLevel(currentState.nextState().getValue());
+                    m_ivStatusAnim.setImageLevel(currentState.nextState().getValue());
+                    m_actionPopup.setHintImage(Defines.ImagePosition.KEY2, m_dragImageId);
+
+                    if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY2))
+                    {
+                        Toast.makeText(getApplicationContext(), "wrong key2", Toast.LENGTH_SHORT).show();
+                        m_isAuthSuccess = false;
+                    }
+                    break;
+
+                case INSERTED_KEY2:
+//                    m_ivStatus.setImageLevel(currentState.nextState().getValue());
+//                    m_ivStatusAnim.setImageLevel(currentState.nextState().getValue());
+                    m_actionPopup.setHintImage(Defines.ImagePosition.KEY3, m_dragImageId);
+
+                    if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY3) && mKeys.get(Defines.ImagePosition.LOCK) != currentLockId)
+                    {
+                        Toast.makeText(getApplicationContext(), "wrong key3", Toast.LENGTH_SHORT).show();
+                        m_isAuthSuccess = false;
+                    }
+
+                    if (m_isAuthSuccess == false)
+                    {
+                        Toast.makeText(getApplicationContext(), "인증실패", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "임시 TOAST..\n간편계좌화면으로넘길예정", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                case INSERTED_KEY3:
+                    LogTrace.i("What??0_o");
+                    break;
+
+                default:
+                    LogTrace.i("What??0_o");
+                    break;
+            }
+
+            if (mKeys.get(Defines.ImagePosition.LOCK) != currentLockId)
+            {
+                Toast.makeText(getApplicationContext(), "wrong LOCK", Toast.LENGTH_SHORT).show();
+                m_isAuthSuccess = false;
+            }
+        }
+    };
+    TopView.OnTopViewListener     mOnTopViewListener = new TopView.OnTopViewListener()
+    {
+        @Override
+        public void OnBack()
+        {
+            refreshAuth();
+
+            finish();
+        }
+
+        @Override
+        public void OnRefresh() {}
+
+        @Override
+        public void OnHelp()
+        {
+            Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
+        }
+    };
+    View.OnClickListener          mOnClickListener   = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            switch (v.getId())
+            {
+                case R.id.ivAuthStatusAnim:
+                    if (m_actionPopup.getVisibility() == View.VISIBLE)
+                    {
+                        m_actionPopup.setVisibilityWithAnimation(View.GONE);
+                    }
+                    else
+                    {
+                        m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
+                    }
+                    break;
+                case R.id.ibAuthRefresh:
+                    refreshAuth();
+                    break;
+
+                case R.id.ibAuthSecurityLevel:
+                    break;
+
+                case R.id.ibAuthKeySetting:
+                    Intent intent = new Intent(getApplicationContext(), RegistActivity.class);
+                    startActivity(intent);
+
+                    if (mAlertDialog != null && mAlertDialog.isShowing())
+                    {
+                        mAlertDialog.dismiss();
+                    }
+
+                    finish();
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,16 +190,77 @@ public class AuthActivity extends FragmentActivity
 
         setContentView(R.layout.auth_activity);
 
-        mContext = this;
-
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean isKeyRegisted = pref.getBoolean(getString(R.string.preference_key_is_regist), false);
-        if(isKeyRegisted == false)
+
+        if (isKeyRegisted == false)
         {
             showRegistDialog();
             return;
         }
+
+        initView();
+
+        mKeys.addAll(loadKeyData());
+
+        refreshAuth();
+    }
+
+    private ArrayList<Integer> generateRandomList(ArrayList<Integer> fixedIconList)
+    {
+        ArrayList<Integer> resultList = new ArrayList<>(Defines.MAX_AUTH_ICON_CAPACITY);
+
+        resultList.addAll(fixedIconList);
+
+        ArrayList<Integer> allList = new ArrayList<>();
+
+        allList.addAll(Defines.RES_ID_ENG);
+
+        allList.addAll(Defines.RES_ID_HAN);
+
+        allList.addAll(Defines.RES_ID_NUM);
+
+        Collections.shuffle(allList);
+
+        for (int i = 0; i < allList.size(); i++)
+        {
+            if (resultList.contains(allList.get(i)))
+            {
+                continue;
+            }
+            else
+            {
+                resultList.add(allList.get(i));
+            }
+
+            if (resultList.size() >= Defines.MAX_AUTH_ICON_CAPACITY)
+            {
+                LogTrace.d("Item count : " + resultList.size());
+                break;
+            }
+        }
+
+        Collections.shuffle(resultList);
+
+        return resultList;
+    }
+
+    private ArrayList<Integer> loadKeyData()
+    {
+        ArrayList<Integer> list = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        list.add(Defines.ImagePosition.LOCK, pref.getInt(getString(R.string.preference_key_lock_res_id), 0));
+
+        list.add(Defines.ImagePosition.KEY1, pref.getInt(getString(R.string.preference_key_key1_res_id), 0));
+
+        list.add(Defines.ImagePosition.KEY2, pref.getInt(getString(R.string.preference_key_key2_res_id), 0));
+
+        list.add(Defines.ImagePosition.KEY3, pref.getInt(getString(R.string.preference_key_key3_res_id), 0));
+
+        return list;
     }
 
     @Override
@@ -44,11 +269,9 @@ public class AuthActivity extends FragmentActivity
         super.onDestroy();
     }
 
-    private AlertDialog mAlertDialog = null;
-
     private void showRegistDialog()
     {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         dialogBuilder.setMessage(R.string.dialog_msg_need_regist);
 
@@ -57,7 +280,7 @@ public class AuthActivity extends FragmentActivity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                Intent intent = new Intent(mContext, RegistActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RegistActivity.class);
                 startActivity(intent);
 
                 if (mAlertDialog != null && mAlertDialog.isShowing())
@@ -86,19 +309,62 @@ public class AuthActivity extends FragmentActivity
         mAlertDialog = dialogBuilder.show();
     }
 
-    CustomGridView.OnDragListener mOnDragListener = new CustomGridView.OnDragListener()
+    private void initView()
     {
-        @Override
-        public void OnDragStart(int position)
-        {
-            LogTrace.d("position : " + position);
-        }
+        m_ivStatus = (ImageView) findViewById(R.id.ivAuthStatus);
 
-        @Override
-        public void OnDragEnd(int position)
-        {
-            LogTrace.d("position : " + position);
-        }
-    };
+        m_ivStatusAnim = (ImageView) findViewById(R.id.ivAuthStatusAnim);
+
+        mTopview = (TopView) findViewById(R.id.authTopView);
+
+        mCustomGridView = (CustomGridView) findViewById(R.id.gvAuthGridView);
+
+        m_ibRefresh = (ImageButton) findViewById(R.id.ibAuthRefresh);
+
+        m_ibSecurityLevel = (ImageButton) findViewById(R.id.ibAuthSecurityLevel);
+
+        m_ibKeySetting = (ImageButton) findViewById(R.id.ibAuthKeySetting);
+
+        m_ibIconSetting = (ImageButton) findViewById(R.id.ibAuthIconSetting);
+
+        m_actionPopup = (ActionPopup) findViewById(R.id.authActionPopup);
+
+        mTopview.setRefreshButtonVisivle(false);
+
+        mTopview.setOnTopViewListener(mOnTopViewListener);
+
+        mCustomGridView.setOnDragListener(mOnDragListener);
+
+        m_ivStatusAnim.setOnClickListener(mOnClickListener);
+
+        m_ibRefresh.setOnClickListener(mOnClickListener);
+
+        m_ibSecurityLevel.setOnClickListener(mOnClickListener);
+
+        m_ibKeySetting.setOnClickListener(mOnClickListener);
+
+        m_ibIconSetting.setOnClickListener(mOnClickListener);
+
+        mCustomGridView.setDragable(true);
+
+        mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
+    }
+
+    private void refreshAuth()
+    {
+        m_ivStatus.setImageLevel(Defines.AuthStatus.INSERT_NONE.getValue());
+
+        m_ivStatusAnim.setImageLevel(Defines.AuthStatus.INSERT_NONE.getValue());
+
+        m_ivStatusAnim.startAnimation(mAniFadeInOut);
+
+        mListRandomIconResID.clear();
+
+        mListRandomIconResID.addAll(generateRandomList(mKeys));
+
+        mCustomGridView.setGridViewItems(mListRandomIconResID);
+
+        m_actionPopup.clearHintImage();
+    }
 
 }

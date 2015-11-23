@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import kr.co.dementor.dementorbank.R;
@@ -99,6 +100,11 @@ public class TopView extends LinearLayout
     public void setOnTopViewListener(OnTopViewListener listener)
     {
         mOnTopViewListener = listener;
+    }
+
+    public void setRefreshButtonVisivle(boolean isVisible)
+    {
+        findViewById(R.id.ibRefresh).setVisibility(isVisible == true ? ImageButton.VISIBLE : ImageButton.INVISIBLE);
     }
 
     public interface OnTopViewListener

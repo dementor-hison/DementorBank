@@ -19,6 +19,14 @@
         android:horizontalSpacing="5dp"
         android:listSelector="@android:color/transparent"/>
 
+    <ImageView
+        android:id="@+id/ivScrollMore"
+        android:layout_width="65.5dp"
+        android:layout_height="28dp"
+        android:background="@drawable/d_arrow"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="15dp"/>
+
     <FrameLayout
         android:id="@+id/flDragIconBounds"
         android:layout_width="match_parent"

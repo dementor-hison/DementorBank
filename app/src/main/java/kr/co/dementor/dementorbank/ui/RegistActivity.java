@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -24,13 +25,15 @@ import kr.co.dementor.dementorbank.common.LogTrace;
  */
 public class RegistActivity extends FragmentActivity
 {
-    private Context            mContext            = this;
-    private ArrayList<Integer> mKeys               = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
-    private TopView            mTopview            = null;
-    private CustomGridView     mCustomGridView     = null;
-    private ImageView          m_ivStep            = null;
-    private ImageView          m_ivStepAnim        = null;
-    private Animation          mAniFadeInOut       = null;
+    private Context            mContext       = this;
+    private ArrayList<Integer> mKeys          = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
+    private TopView            mRegistTopview = null;
+    private ActionPopup        m_actionPopup  = null;
+
+    private CustomGridView mRegistGridView      = null;
+    private ImageView      m_ivRegistStatus     = null;
+    private ImageView      m_ivRegistStatusAnim = null;
+    private Animation      mAniFadeInOut        = null;
     CustomGridView.OnItemClickListener mOnItemClickListener = new CustomGridView.OnItemClickListener()
     {
         @Override
@@ -38,7 +41,7 @@ public class RegistActivity extends FragmentActivity
         {
             LogTrace.d("position : " + position + " , resId : " + imageSrcId);
 
-            Defines.RegistState currentState = Defines.RegistState.values()[m_ivStep.getDrawable().getLevel()];
+            Defines.RegistStatus currentState = Defines.RegistStatus.values()[m_ivRegistStatus.getDrawable().getLevel()];
 
             if (isValid(imageSrcId) == false)
             {
@@ -56,22 +59,26 @@ public class RegistActivity extends FragmentActivity
             {
                 case SELECTED_NONE:
                     mKeys.add(Defines.ImagePosition.LOCK, imageSrcId);
+                    m_actionPopup.setHintImage(Defines.ImagePosition.LOCK, imageSrcId);
                     break;
 
                 case SELECTED_LOCK:
                     mKeys.add(Defines.ImagePosition.KEY1, imageSrcId);
+                    m_actionPopup.setHintImage(Defines.ImagePosition.KEY1, imageSrcId);
                     break;
 
                 case SELECTED_KEY1:
                     mKeys.add(Defines.ImagePosition.KEY2, imageSrcId);
+                    m_actionPopup.setHintImage(Defines.ImagePosition.KEY2, imageSrcId);
                     break;
 
                 case SELECTED_KEY2:
                     mKeys.add(Defines.ImagePosition.KEY3, imageSrcId);
-
-                    resetRegist();
+                    m_actionPopup.setHintImage(Defines.ImagePosition.KEY3, imageSrcId);
 
                     startConfirmActivity();
+
+                    resetRegist();
                     break;
 
                 case SELECTED_KEY3:
@@ -79,8 +86,12 @@ public class RegistActivity extends FragmentActivity
                     LogTrace.i("What??0_o");
                     break;
             }
-            m_ivStep.setImageLevel(currentState.nextState().getValue());
-            m_ivStepAnim.setImageLevel(currentState.nextState().getValue());
+
+            Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vib.vibrate(200);
+
+            m_ivRegistStatus.setImageLevel(currentState.nextState().getValue());
+            m_ivRegistStatusAnim.setImageLevel(currentState.nextState().getValue());
         }
     };
     TopView.OnTopViewListener          mOnTopViewListener   = new TopView.OnTopViewListener()
@@ -103,9 +114,9 @@ public class RegistActivity extends FragmentActivity
             Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
         }
     };
-    private ImageButton        m_ibCategoryPrivate = null;
-    private ImageButton        m_ibCategoryWord    = null;
-    View.OnClickListener               mOnClickListener     = new View.OnClickListener()
+    private ImageButton m_ibCategoryPrivate = null;
+    private ImageButton m_ibCategoryWord    = null;
+    View.OnClickListener mOnClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
@@ -122,6 +133,17 @@ public class RegistActivity extends FragmentActivity
                 case R.id.ibCategoryPrivate:
                     m_ibCategoryWord.setSelected(false);
                     m_ibCategoryPrivate.setSelected(true);
+                    break;
+                case R.id.ivStatus:
+                case R.id.ivStatusAnim:
+                    if (m_actionPopup.getVisibility() == View.VISIBLE)
+                    {
+                        m_actionPopup.setVisibilityWithAnimation(View.GONE);
+                    }
+                    else
+                    {
+                        m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
+                    }
                     break;
 
                 default:
@@ -155,7 +177,7 @@ public class RegistActivity extends FragmentActivity
     {
         boolean result = true;
 
-        if (m_ivStep.getDrawable().getLevel() == Defines.RegistState.SELECTED_NONE.getValue())
+        if (m_ivRegistStatus.getDrawable().getLevel() == Defines.RegistStatus.SELECTED_NONE.getValue())
         {
             LogTrace.d("");
             result = true;
@@ -182,7 +204,7 @@ public class RegistActivity extends FragmentActivity
 
         ArrayList<Integer> listItems = loadItemsForGridView();
 
-        mCustomGridView.setGridViewItems(listItems);
+        mRegistGridView.setGridViewItems(listItems);
     }
 
     @Override
@@ -206,9 +228,9 @@ public class RegistActivity extends FragmentActivity
 
     private void initView()
     {
-        m_ivStep = (ImageView) findViewById(R.id.ivStep);
+        m_ivRegistStatus = (ImageView) findViewById(R.id.ivStatus);
 
-        m_ivStepAnim = (ImageView) findViewById(R.id.ivStepAnim);
+        m_ivRegistStatusAnim = (ImageView) findViewById(R.id.ivStatusAnim);
 
         m_ibCategoryPrivate = (ImageButton) findViewById(R.id.ibCategoryPrivate);
 
@@ -218,9 +240,11 @@ public class RegistActivity extends FragmentActivity
 
         m_ibNextCategory = (ImageButton) findViewById(R.id.ibNextCategory);
 
-        mTopview = (TopView) findViewById(R.id.topView);
+        mRegistTopview = (TopView) findViewById(R.id.topView);
 
-        mCustomGridView = (CustomGridView) findViewById(R.id.gvCustomGridView);
+        m_actionPopup = (ActionPopup) findViewById(R.id.registActionPopup);
+
+        mRegistGridView = (CustomGridView) findViewById(R.id.gvCustomGridView);
 
         m_ibCategoryPrivate.setOnClickListener(mOnClickListener);
 
@@ -230,11 +254,15 @@ public class RegistActivity extends FragmentActivity
 
         m_ibNextCategory.setOnClickListener(mOnClickListener);
 
-        mTopview.setOnTopViewListener(mOnTopViewListener);
+        m_ivRegistStatus.setOnClickListener(mOnClickListener);
 
-        mCustomGridView.setOnItemClickListener(mOnItemClickListener);
+        m_ivRegistStatusAnim.setOnClickListener(mOnClickListener);
 
-        mCustomGridView.setDragable(false);
+        mRegistTopview.setOnTopViewListener(mOnTopViewListener);
+
+        mRegistGridView.setOnItemClickListener(mOnItemClickListener);
+
+        mRegistGridView.setDragable(false);
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
 
@@ -244,15 +272,16 @@ public class RegistActivity extends FragmentActivity
 
     }
 
-
     private void resetRegist()
     {
-        m_ivStep.setImageLevel(Defines.RegistState.SELECTED_NONE.getValue());
+        m_ivRegistStatus.setImageLevel(Defines.RegistStatus.SELECTED_NONE.getValue());
 
-        m_ivStepAnim.setImageLevel(Defines.RegistState.SELECTED_NONE.getValue());
+        m_ivRegistStatusAnim.setImageLevel(Defines.RegistStatus.SELECTED_NONE.getValue());
 
-        m_ivStepAnim.startAnimation(mAniFadeInOut);
+        m_ivRegistStatusAnim.startAnimation(mAniFadeInOut);
 
         mKeys.clear();
+
+        m_actionPopup.clearHintImage();
     }
 }

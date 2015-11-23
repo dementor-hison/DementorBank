@@ -64,7 +64,7 @@ public class CustomGridViewAdapter extends BaseAdapter
 
             iv.setBackgroundResource(R.drawable.grid_item_background);
 
-            iv.setDrawingCacheEnabled(true);
+            //iv.setDrawingCacheEnabled(true);
 
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
 

@@ -2,11 +2,13 @@ package kr.co.dementor.dementorbank.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.common.Defines;
 import kr.co.dementor.dementorbank.common.LogTrace;
 
 
@@ -25,6 +28,8 @@ public class CustomGridView extends FrameLayout
 {
     private GridView              mGridView        = null;
     private CustomGridViewAdapter mGridViewAdapter = new CustomGridViewAdapter();
+
+    private ImageView mIvScrollMore = null;
 
     private OnDragListener      mOnCustomDragListener      = null;
     private OnItemClickListener mOnCustomItemClickListener = null;
@@ -46,15 +51,24 @@ public class CustomGridView extends FrameLayout
 
             int position = mGridView.pointToPosition((int) x, (int) y);
 
+            int resID = Defines.WHITE_AREA;
+
             switch (event.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
 
+                    if (position == AdapterView.INVALID_POSITION)
+                    {
+                        return false;
+                    }
+
                     m_iSelectedIconPosition = position;
+
+                    resID = (int) mGridViewAdapter.getItem(m_iSelectedIconPosition);
 
                     if (mOnCustomDragListener != null && mIsDragable)
                     {
-                        mOnCustomDragListener.OnDragStart(m_iSelectedIconPosition);
+                        mOnCustomDragListener.OnDragStart(m_iSelectedIconPosition, resID);
 
                         makeImage(position, (int) x, (int) y);
                     }
@@ -63,11 +77,14 @@ public class CustomGridView extends FrameLayout
 
                 case MotionEvent.ACTION_UP:
 
-                    if (mOnCustomDragListener != null && mIsDragable)
+                    if (mOnCustomDragListener != null && mIsDragable && m_iSelectedIconPosition != AdapterView.INVALID_POSITION && m_iTargetIconPosition != AdapterView.INVALID_POSITION)
                     {
-                        mOnCustomDragListener.OnDragEnd(m_iTargetIconPosition);
+                        resID = (int) mGridViewAdapter.getItem(m_iTargetIconPosition);
+
+                        mOnCustomDragListener.OnDragEnd(m_iTargetIconPosition, resID);
 
                         m_iSelectedIconPosition = AdapterView.INVALID_POSITION;
+
                         m_iTargetIconPosition = AdapterView.INVALID_POSITION;
 
                         Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -80,19 +97,17 @@ public class CustomGridView extends FrameLayout
 
                 case MotionEvent.ACTION_MOVE:
 
-                    if (position != AdapterView.INVALID_POSITION)
+                    if (mOnCustomDragListener != null && mIsDragable && m_iSelectedIconPosition != AdapterView.INVALID_POSITION)
                     {
-                        if (mOnCustomDragListener != null && mIsDragable)
-                        {
-                            m_iTargetIconPosition = position;
+                        m_iTargetIconPosition = position == AdapterView.INVALID_POSITION ? m_iTargetIconPosition : position;
 
-                            moveImage(x, y);
-                        }
+                        moveImage(x, y);
                     }
 
                 default:
                     break;
             }
+
             return false;
         }
     };
@@ -104,11 +119,34 @@ public class CustomGridView extends FrameLayout
         {
             if (mOnCustomItemClickListener != null)
             {
-                int imageSrcId = (int)mGridViewAdapter.getItem(position);
+                int imageSrcId = (int) mGridViewAdapter.getItem(position);
                 mOnCustomItemClickListener.OnItemClick(view, position, imageSrcId);
             }
         }
     };
+
+    private AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener()
+    {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState)
+        {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+        {
+            if (firstVisibleItem + visibleItemCount >= totalItemCount)
+            {
+                mIvScrollMore.setVisibility(ImageView.INVISIBLE);
+            }
+            else
+            {
+                mIvScrollMore.setVisibility(ImageView.VISIBLE);
+            }
+        }
+    };
+
 
     public CustomGridView(Context context)
     {
@@ -157,7 +195,16 @@ public class CustomGridView extends FrameLayout
 
         mIvDragView.setLayoutParams(params);
 
-        Bitmap b = Bitmap.createBitmap(selectedItem.getDrawingCache());
+        //Bitmap b = Bitmap.createBitmap(selectedItem.getDrawingCache());
+
+        Bitmap b = Bitmap.createBitmap(selectedItem.getMeasuredWidth(),
+
+                                       selectedItem.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas screenShotCanvas = new Canvas(b);
+
+        selectedItem.draw(screenShotCanvas);
+
 
         mIvDragView.setImageBitmap(b);
 
@@ -193,6 +240,8 @@ public class CustomGridView extends FrameLayout
 
         mIvDragView = (SquareImageView) findViewById(R.id.ivDrag);
 
+        mIvScrollMore = (ImageView)findViewById(R.id.ivScrollMore);
+
         mGridViewAdapter = new CustomGridViewAdapter();
 
         mGridView.setAdapter(mGridViewAdapter);
@@ -200,6 +249,8 @@ public class CustomGridView extends FrameLayout
         mGridView.setOnTouchListener(mOnTouchListener);
 
         mGridView.setOnItemClickListener(mOnItemClickListener);
+
+        mGridView.setOnScrollListener(mOnScrollListener);
     }
 
     public void setGridViewItems(ArrayList<Integer> listBitmaps)
@@ -237,9 +288,9 @@ public class CustomGridView extends FrameLayout
 
     public interface OnDragListener
     {
-        void OnDragStart(int position);
+        void OnDragStart(int position, int resId);
 
-        void OnDragEnd(int position);
+        void OnDragEnd(int position, int resId);
     }
 
     public interface OnItemClickListener
