@@ -113,6 +113,9 @@ public class RegistActivity extends FragmentActivity
         {
             Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
         }
+
+        @Override
+        public void OnConfirm() { }
     };
     private ImageButton m_ibCategoryPrivate = null;
     private ImageButton m_ibCategoryWord    = null;
@@ -133,6 +136,8 @@ public class RegistActivity extends FragmentActivity
                 case R.id.ibCategoryPrivate:
                     m_ibCategoryWord.setSelected(false);
                     m_ibCategoryPrivate.setSelected(true);
+
+
                     break;
                 case R.id.ivStatus:
                 case R.id.ivStatusAnim:
@@ -263,6 +268,10 @@ public class RegistActivity extends FragmentActivity
         mRegistGridView.setOnItemClickListener(mOnItemClickListener);
 
         mRegistGridView.setDragable(false);
+
+        mRegistTopview.setRefreshButtonVisible(true);
+
+        mRegistTopview.setConfirmButtonVisible(false);
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
 

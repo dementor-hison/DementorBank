@@ -140,6 +140,9 @@ public class AuthActivity extends FragmentActivity
         {
             Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
         }
+
+        @Override
+        public void OnConfirm() {}
     };
     View.OnClickListener          mOnClickListener   = new View.OnClickListener()
     {
@@ -329,7 +332,9 @@ public class AuthActivity extends FragmentActivity
 
         m_actionPopup = (ActionPopup) findViewById(R.id.authActionPopup);
 
-        mTopview.setRefreshButtonVisivle(false);
+        mTopview.setRefreshButtonVisible(false);
+
+        mTopview.setConfirmButtonVisible(false);
 
         mTopview.setOnTopViewListener(mOnTopViewListener);
 
