@@ -1,4 +1,4 @@
-package kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.adapter;
+package kr.co.dementor.dementorbank.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

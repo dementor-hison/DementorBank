@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.adapter.CustomGridViewAdapter;
 import kr.co.dementor.dementorbank.common.Defines;
 import kr.co.dementor.dementorbank.common.LogTrace;
-import kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.adapter.CustomGridViewAdapter;
 
 
 /**

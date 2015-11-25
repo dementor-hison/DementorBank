@@ -3,10 +3,7 @@
               android:id="@+id/llDepositItem"
               android:layout_width="98dp"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-    android:focusable="true"
-    android:clickable="true"
-    android:focusableInTouchMode="true">
+              android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvDepositGridItemTitle"
@@ -17,7 +14,8 @@
         android:textColor="@color/color_title_sel"
         android:textSize="16.5dp"
         android:textStyle="bold"
-        android:typeface="normal"/>
+        android:typeface="normal"
+        android:duplicateParentState="true"/>
 
     <TextView
         android:id="@+id/tvDepositGridItemSub1"
@@ -27,7 +25,8 @@
         android:gravity="center"
         android:textColor="@color/color_sub1_sel"
         android:textSize="16.5dp"
-        android:typeface="normal"/>
+        android:typeface="normal"
+        android:duplicateParentState="true"/>
 
     <TextView
         android:id="@+id/tvDepositGridItemSub2"
@@ -37,6 +36,7 @@
         android:gravity="center"
         android:textColor="@color/color_sub2_sel"
         android:textSize="12.5dp"
-        android:typeface="normal"/>
+        android:typeface="normal"
+        android:duplicateParentState="true"/>
 
 </LinearLayout>

@@ -11,8 +11,8 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.adapter.SelectImageGridAdapter;
 import kr.co.dementor.dementorbank.common.Defines;
-import kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.adapter.SelectImageGridAdapter;
 
 /**
  * Created by dementor1 on 15. 11. 23..
