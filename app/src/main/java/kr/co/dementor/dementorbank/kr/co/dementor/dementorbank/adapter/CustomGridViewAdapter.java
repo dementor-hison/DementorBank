@@ -1,4 +1,4 @@
-package kr.co.dementor.dementorbank.ui;
+package kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import kr.co.dementor.dementorbank.R;
 import kr.co.dementor.dementorbank.common.LogTrace;
+import kr.co.dementor.dementorbank.ui.SquareImageView;
 
 /**
  * Created by dementor1 on 15. 11. 5..

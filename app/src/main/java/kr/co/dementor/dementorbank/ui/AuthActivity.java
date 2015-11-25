@@ -2,24 +2,25 @@ package kr.co.dementor.dementorbank.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import kr.co.dementor.dementorbank.R;
 import kr.co.dementor.dementorbank.common.Defines;
+import kr.co.dementor.dementorbank.common.DementorUtil;
 import kr.co.dementor.dementorbank.common.LogTrace;
 
 /**
@@ -69,7 +70,6 @@ public class AuthActivity extends FragmentActivity
 
                     if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY1))
                     {
-                        Toast.makeText(getApplicationContext(), "wrong key1", Toast.LENGTH_SHORT).show();
                         m_isAuthSuccess = false;
                     }
                     break;
@@ -81,7 +81,6 @@ public class AuthActivity extends FragmentActivity
 
                     if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY2))
                     {
-                        Toast.makeText(getApplicationContext(), "wrong key2", Toast.LENGTH_SHORT).show();
                         m_isAuthSuccess = false;
                     }
                     break;
@@ -93,17 +92,18 @@ public class AuthActivity extends FragmentActivity
 
                     if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY3) && mKeys.get(Defines.ImagePosition.LOCK) != currentLockId)
                     {
-                        Toast.makeText(getApplicationContext(), "wrong key3", Toast.LENGTH_SHORT).show();
                         m_isAuthSuccess = false;
                     }
 
                     if (m_isAuthSuccess == false)
                     {
                         Toast.makeText(getApplicationContext(), "인증실패", Toast.LENGTH_SHORT).show();
+                        refreshAuth();
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "임시 TOAST..\n간편계좌화면으로넘길예정", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), SimpleTransferActivity.class);
+                        startActivity(intent);
                     }
                     break;
 
@@ -145,7 +145,8 @@ public class AuthActivity extends FragmentActivity
         @Override
         public void OnConfirm() {}
     };
-    View.OnClickListener          mOnClickListener   = new View.OnClickListener()
+    private FrameLayout m_flAuthGuide = null;
+    View.OnClickListener mOnClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
@@ -181,11 +182,29 @@ public class AuthActivity extends FragmentActivity
                     finish();
 
                     break;
+
+                case R.id.ibAuthGuideClose:
+                    hideHelp();
+                    break;
+
+                case R.id.ibAuthNeverSee:
+                    DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_never_see_auth), true);
+
+                    hideHelp();
+                    break;
+
                 default:
                     break;
             }
         }
     };
+    private ImageButton m_ibAuthGuideClose = null;
+    private ImageButton m_ibAuthNeverSee   = null;
+
+    private void hideHelp()
+    {
+        m_flAuthGuide.setVisibility(FrameLayout.GONE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -194,9 +213,7 @@ public class AuthActivity extends FragmentActivity
 
         setContentView(R.layout.auth_activity);
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean isKeyRegisted = pref.getBoolean(getString(R.string.preference_key_is_regist), false);
+        boolean isKeyRegisted = (boolean) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_is_regist), false);
 
         if (isKeyRegisted == false)
         {
@@ -217,9 +234,7 @@ public class AuthActivity extends FragmentActivity
 
         resultList.addAll(fixedIconList);
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        Set<String> set = pref.getStringSet(getString(R.string.preference_key_dummy_set), null);
+        Set<String> set = (Set<String>) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_dummy_set), new HashSet<String>());
 
         for (String name : set)
         {
@@ -275,15 +290,13 @@ public class AuthActivity extends FragmentActivity
     {
         ArrayList<Integer> list = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String strLock = (String) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_lock_res_id), "");
 
-        String strLock = pref.getString(getString(R.string.preference_key_lock_res_id), null);
+        String strKey1 = (String) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_key1_res_id), "");
 
-        String strKey1 = pref.getString(getString(R.string.preference_key_key1_res_id), null);
+        String strKey2 = (String) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_key2_res_id), "");
 
-        String strKey2 = pref.getString(getString(R.string.preference_key_key2_res_id), null);
-
-        String strKey3 = pref.getString(getString(R.string.preference_key_key3_res_id), null);
+        String strKey3 = (String) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_key3_res_id), "");
 
         int lockId = getResources().getIdentifier(strLock, "drawable", getApplicationContext().getPackageName());
 
@@ -370,9 +383,17 @@ public class AuthActivity extends FragmentActivity
 
         m_actionPopup = (ActionPopup) findViewById(R.id.authActionPopup);
 
+        m_flAuthGuide = (FrameLayout) findViewById(R.id.flAuthGuide);
+
+        m_ibAuthGuideClose = (ImageButton) findViewById(R.id.ibAuthGuideClose);
+
+        m_ibAuthNeverSee = (ImageButton) findViewById(R.id.ibAuthNeverSee);
+
         mTopview.setRefreshButtonVisible(false);
 
         mTopview.setConfirmButtonVisible(false);
+
+        mTopview.setHelpButtonVisible(true);
 
         mTopview.setOnTopViewListener(mOnTopViewListener);
 
@@ -388,9 +409,17 @@ public class AuthActivity extends FragmentActivity
 
         m_ibIconSetting.setOnClickListener(mOnClickListener);
 
+        m_ibAuthGuideClose.setOnClickListener(mOnClickListener);
+
+        m_ibAuthNeverSee.setOnClickListener(mOnClickListener);
+
         mCustomGridView.setDragable(true);
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
+
+        boolean isNeverSee = (boolean) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_auth), false);
+
+        m_flAuthGuide.setVisibility(isNeverSee == true ? FrameLayout.GONE : FrameLayout.VISIBLE);
     }
 
     private void refreshAuth()
@@ -408,6 +437,8 @@ public class AuthActivity extends FragmentActivity
         mCustomGridView.setGridViewItems(mListRandomIconResID);
 
         m_actionPopup.clearHintImage();
+
+        m_isAuthSuccess = true;
     }
 
 }

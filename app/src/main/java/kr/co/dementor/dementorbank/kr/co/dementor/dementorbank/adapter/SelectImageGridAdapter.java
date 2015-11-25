@@ -1,4 +1,4 @@
-package kr.co.dementor.dementorbank.ui;
+package kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,13 +11,14 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.ui.ImageInfo;
 
 /**
  * Created by dementor1 on 15. 11. 23..
  */
 public class SelectImageGridAdapter extends BaseAdapter
 {
-    private Context            mContext = null;
+    private Context mContext = null;
 
     private ArrayList<ImageInfo> mList = new ArrayList<ImageInfo>();
 

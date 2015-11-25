@@ -4,4 +4,12 @@
     <color name="color247247247">#f7f7f7</color>
     <color name="color200200200">#c8c8c8</color>
     <color name="color220220220">#dcdcdc</color>
+
+    <color name="color255255255">#ffffff</color>
+    <color name="color026252245">#1afcf5</color>
+
+    <color name="color102255255255">#66ffffff</color>
+    <color name="color102045045045">#662d2d2d</color>
+
+    <color name="color078191255">#63cdf1</color>
 </resources>

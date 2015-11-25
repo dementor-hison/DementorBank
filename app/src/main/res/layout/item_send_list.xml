@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="23dp"
+              android:layout_marginTop="3dp"
+              android:layout_marginBottom="3dp"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvSendItemTargetName"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="43.3657"
+        android:gravity="center_vertical"
+        android:textColor="@color/color078191255"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:typeface="normal"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="16.9903"
+        android:gravity="center_vertical"
+        android:textColor="@color/color136136136"
+        android:textSize="13dp"
+        android:typeface="normal"
+        android:text="@string/send_item_value"/>
+
+    <TextView
+        android:id="@+id/tvDepositGridItemSub2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="36.246"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:typeface="normal"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4.207"
+        android:gravity="center_vertical"
+        android:textColor="@color/color136136136"
+        android:textSize="13dp"
+        android:typeface="normal"
+        android:text="@string/send_item_won"/>
+</LinearLayout>

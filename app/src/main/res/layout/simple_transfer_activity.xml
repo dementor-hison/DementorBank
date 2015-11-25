@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:top="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <kr.co.dementor.dementorbank.ui.TopView
+        android:id="@+id/transferTopView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.80"
+        top:titleText="간편이체"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="92.20"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <!-- ViewPager Start-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/move_back"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ibPrevDeposit"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/move_arrow_l"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vpDepositPager"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/ibNextDeposit"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/move_arrow_r"/>
+
+        </LinearLayout>
+        <!-- ViewPager End-->
+
+        <!-- BankingList Start-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/content_box"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/tvDepositInfoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="16.5dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/color136136136"
+                android:textSize="16.5dp"
+                android:textStyle="bold"
+                android:typeface="normal"/>
+            <TextView
+                android:id="@+id/tvDepositInfoSub"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:textSize="16.5dp"
+                android:typeface="normal"/>
+            <ListView
+                android:id="@+id/lSendList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <!-- BankingList Start-->
+
+        <!-- Drag Start-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="191dp"
+            android:background="@drawable/content_box"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--Drag icons-->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vpSelectIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="52.5dp"
+                    android:layout_marginBottom="15dp"
+                    android:paddingLeft="14dp"
+                    android:paddingRight="14dp"/>
+                <!--Target -->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vpTargetIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="73.5dp"
+                    android:layout_marginBottom="7.5dp"/>
+
+                <ImageButton
+                    android:id="@+id/ibJaju"
+                    android:layout_width="107dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="right"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/jaju_text"/>
+
+            </LinearLayout>
+
+            <kr.co.dementor.dementorbank.ui.SquareImageView
+                android:layout_width="52.5dp"
+                android:layout_height="52.5dp"
+                android:layout_gravity="left|top"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+        </FrameLayout>
+        <!-- Drag End-->
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/ibPrevActivity"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/top_arrow_sel"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/ibPrevActivity"
+            android:textColor="@color/color136136136"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            android:background="@android:color/transparent"
+            android:text="@string/button_prev"/>
+        <ImageButton
+            android:id="@+id/ibNextActivity"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:rotation="180"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/top_arrow_sel"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:layout_toLeftOf="@id/ibNextActivity"
+            android:textColor="@color/color136136136"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            android:background="@android:color/transparent"
+            android:text="@string/button_next"/>
+    </RelativeLayout>
+
+</LinearLayout>

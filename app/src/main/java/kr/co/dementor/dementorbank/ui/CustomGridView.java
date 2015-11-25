@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import kr.co.dementor.dementorbank.R;
 import kr.co.dementor.dementorbank.common.Defines;
 import kr.co.dementor.dementorbank.common.LogTrace;
+import kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.adapter.CustomGridViewAdapter;
 
 
 /**
@@ -86,12 +87,12 @@ public class CustomGridView extends FrameLayout
                         m_iSelectedIconPosition = AdapterView.INVALID_POSITION;
 
                         m_iTargetIconPosition = AdapterView.INVALID_POSITION;
-
-                        Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                        vib.vibrate(200);
-
-                        removeImage();
                     }
+
+                    Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    vib.vibrate(200);
+
+                    removeImage();
 
                     break;
 

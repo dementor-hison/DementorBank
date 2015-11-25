@@ -184,8 +184,34 @@
 
     </LinearLayout>
 
+    <!-- help -->
     <FrameLayout
+        android:id="@+id/flRegisterGuide"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/key_guide"
+            android:scaleType="fitXY"/>
+        <ImageButton
+            android:id="@+id/ibRegisterNeverSee"
+            android:layout_width="105dp"
+            android:layout_height="23.5dp"
+            android:layout_margin="12.5dp"
+            android:layout_gravity="bottom|left"
+            android:src="@drawable/never_see_again_sel"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:id="@+id/ibRegisterGuideClose"
+            android:layout_width="60.5dp"
+            android:layout_height="32.5dp"
+            android:layout_margin="7dp"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/guide_btn_sel"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"/>
+    </FrameLayout>
 </FrameLayout>
 

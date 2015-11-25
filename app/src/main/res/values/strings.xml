@@ -6,6 +6,11 @@
     <string name="dialog_button_ok">확인</string>
     <string name="dialog_button_cancel">종료</string>
     <string name="toast_msg_regist_key_wrong">이미 선택한 키값입니다.</string>
+    <string name="button_prev">이전</string>
+    <string name="button_next">이체실행</string>
+
+    <string name="send_item_value">이체금액</string>
+    <string name="send_item_won">원</string>
 
     <string name="preference_key_is_regist">isRegisted</string>
     <string name="preference_key_lock_res_id">lockResId</string>

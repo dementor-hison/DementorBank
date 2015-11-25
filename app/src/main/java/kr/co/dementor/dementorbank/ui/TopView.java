@@ -140,8 +140,11 @@ public class TopView extends LinearLayout
 
     public void setConfirmButtonVisible(boolean isVisible)
     {
-        findViewById(R.id.ibHelp).setVisibility(isVisible == false ? ImageButton.VISIBLE : ImageButton.GONE);
         findViewById(R.id.ibConfirm).setVisibility(isVisible == true ? ImageButton.VISIBLE : ImageButton.GONE);
+    }
+    public void setHelpButtonVisible(boolean isVisible)
+    {
+        findViewById(R.id.ibHelp).setVisibility(isVisible == true ? ImageButton.VISIBLE : ImageButton.GONE);
     }
 
     public interface OnTopViewListener

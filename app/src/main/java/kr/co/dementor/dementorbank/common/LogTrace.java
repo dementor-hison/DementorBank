@@ -21,6 +21,7 @@ public class LogTrace
 			Exception e = new Exception();
 			callerElement = e.getStackTrace()[1];
 			Log.e(TAG, String.format(format, callerElement.getFileName(), callerElement.getLineNumber(), callerElement.getMethodName(), strMsg));
+            Log.e(TAG, "Stack:", new Throwable("stack dump"));
 		}
 	}
 

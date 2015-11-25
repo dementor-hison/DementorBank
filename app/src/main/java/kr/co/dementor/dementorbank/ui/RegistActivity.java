@@ -2,14 +2,13 @@ package kr.co.dementor.dementorbank.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,6 +20,7 @@ import java.util.Set;
 
 import kr.co.dementor.dementorbank.R;
 import kr.co.dementor.dementorbank.common.Defines;
+import kr.co.dementor.dementorbank.common.DementorUtil;
 import kr.co.dementor.dementorbank.common.LogTrace;
 
 /**
@@ -113,7 +113,7 @@ public class RegistActivity extends FragmentActivity
         @Override
         public void OnHelp()
         {
-
+            showHelp();
         }
 
         @Override
@@ -153,38 +153,62 @@ public class RegistActivity extends FragmentActivity
                     }
                     break;
 
+                case R.id.ibRegisterNeverSee:
+
+                    DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_never_see_regist), true);
+
+                    hideHelp();
+
+                    break;
+
+                case R.id.ibRegisterGuideClose:
+
+                    hideHelp();
+
                 default:
                     LogTrace.i("What??? 0_o");
                     break;
             }
         }
     };
-    private ImageButton        m_ibPrevCategory      = null;
-    private ImageButton        m_ibNextCategory      = null;
-    private ArrayList<Integer> mSelectedPrivateItems = new ArrayList<Integer>();
+
+    private void hideHelp()
+    {
+        m_flGuide.setVisibility(FrameLayout.GONE);
+    }
+
+    private void showHelp()
+    {
+        m_flGuide.setVisibility(FrameLayout.VISIBLE);
+    }
+
+    private ImageButton        m_ibPrevCategory          = null;
+    private ImageButton        m_ibNextCategory          = null;
+    private ArrayList<Integer> mSelectedPrivateItems     = new ArrayList<Integer>();
+    private FrameLayout        m_flGuide                 = null;
+    private ImageButton        m_ibRegisterHelp1NeverSee = null;
+    private ImageButton        m_ibRegisterGuideClose    = null;
 
     private void startConfirmActivity()
     {
         //임시로 바로 저장 중...아직 confirm 디자인 없음.
-        SharedPreferences        pref   = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(getString(R.string.preference_key_is_regist), true);
+        DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_is_regist), true);
 
         String strLockName = getResources().getResourceName(mKeys.get(Defines.ImagePosition.LOCK));
         String strKey1Name = getResources().getResourceName(mKeys.get(Defines.ImagePosition.KEY1));
         String strKey2Name = getResources().getResourceName(mKeys.get(Defines.ImagePosition.KEY2));
         String strKey3Name = getResources().getResourceName(mKeys.get(Defines.ImagePosition.KEY3));
 
-        editor.putString(getString(R.string.preference_key_lock_res_id), strLockName);
-        editor.putString(getString(R.string.preference_key_key1_res_id), strKey1Name);
-        editor.putString(getString(R.string.preference_key_key2_res_id), strKey2Name);
-        editor.putString(getString(R.string.preference_key_key3_res_id), strKey3Name);
+        DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_lock_res_id), strLockName);
+        DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_key1_res_id), strKey1Name);
+        DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_key2_res_id), strKey2Name);
+        DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_key3_res_id), strKey3Name);
 
         ArrayList<Integer> list = mRegistGridView.getGridViewItems();
 
         for (int i = 0; i < mKeys.size(); i++)
         {
-            if(list.contains(mKeys.get(i)))
+            if (list.contains(mKeys.get(i)))
             {
                 list.remove(mKeys.get(i));
             }
@@ -201,8 +225,7 @@ public class RegistActivity extends FragmentActivity
             i++;
         }
 
-        editor.putStringSet(getString(R.string.preference_key_dummy_set), set);
-        editor.commit();
+        DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_dummy_set), set);
 
         Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
         startActivity(intent);
@@ -287,6 +310,12 @@ public class RegistActivity extends FragmentActivity
 
         mRegistGridView = (CustomGridView) findViewById(R.id.gvCustomGridView);
 
+        m_flGuide = (FrameLayout) findViewById(R.id.flRegisterGuide);
+
+        m_ibRegisterHelp1NeverSee = (ImageButton)findViewById(R.id.ibRegisterNeverSee);
+
+        m_ibRegisterGuideClose = (ImageButton)findViewById(R.id.ibRegisterGuideClose);
+
         m_ibCategoryPrivate.setOnClickListener(mOnClickListener);
 
         m_ibCategoryWord.setOnClickListener(mOnClickListener);
@@ -299,6 +328,10 @@ public class RegistActivity extends FragmentActivity
 
         m_ivRegistStatusAnim.setOnClickListener(mOnClickListener);
 
+        m_ibRegisterHelp1NeverSee.setOnClickListener(mOnClickListener);
+
+        m_ibRegisterGuideClose.setOnClickListener(mOnClickListener);
+
         mRegistTopview.setOnTopViewListener(mOnTopViewListener);
 
         mRegistGridView.setOnItemClickListener(mOnItemClickListener);
@@ -309,7 +342,13 @@ public class RegistActivity extends FragmentActivity
 
         mRegistTopview.setConfirmButtonVisible(false);
 
+        mRegistTopview.setHelpButtonVisible(true);
+
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
+
+        boolean isNeverSee = (boolean)DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_regist), false);
+
+        m_flGuide.setVisibility(isNeverSee == true ? FrameLayout.GONE : FrameLayout.VISIBLE);
     }
 
     private void resetRegist()

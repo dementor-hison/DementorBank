@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/llDepositItem"
+              android:layout_width="98dp"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    android:focusable="true"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/tvDepositGridItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_title_sel"
+        android:textSize="16.5dp"
+        android:textStyle="bold"
+        android:typeface="normal"/>
+
+    <TextView
+        android:id="@+id/tvDepositGridItemSub1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_sub1_sel"
+        android:textSize="16.5dp"
+        android:typeface="normal"/>
+
+    <TextView
+        android:id="@+id/tvDepositGridItemSub2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_sub2_sel"
+        android:textSize="12.5dp"
+        android:typeface="normal"/>
+
+</LinearLayout>
