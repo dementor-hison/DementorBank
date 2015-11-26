@@ -45,7 +45,7 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         mNext.setOnClickListener(this);
     }
 
-    public void setDepositList(DepositInfo[] infos, FragmentManager fm)
+    public void setDepositList(DepositInfo[] infos, FragmentManager fm, int defaultPosition)
     {
         LogTrace.d("infos length : " + infos.length);
         if (mDepositAdapter == null)
@@ -60,9 +60,15 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         mDepositViewPager.setPageMargin((int) (-mDepositViewPager.getWidth() * 0.67));
         mDepositViewPager.setOffscreenPageLimit(4);
 
-        mDepositViewPager.setCurrentItem(0);
-        if (mItems.length > 2)
-            mDepositViewPager.setCurrentItem(1);
+        if(defaultPosition >= mDepositAdapter.getCount())
+        {
+            mDepositViewPager.setCurrentItem(0);
+            mDepositAdapter.displaySelected(0);
+        }
+
+        mDepositViewPager.setCurrentItem(defaultPosition);
+        mDepositAdapter.displaySelected(defaultPosition);
+
     }
 
     @Override
@@ -87,8 +93,8 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
     public void onPageSelected(int index) {
         mDepositAdapter.displaySelected(index);
 
-        if (mDepositViewPager.getCurrentItem() != index)
-            mDepositViewPager.setCurrentItem(index, true);
+        //if (mDepositViewPager.getCurrentItem() != index)
+        //    mDepositViewPager.setCurrentItem(index, true);
 
         if(mOnDepositSelectListener != null)
         {
@@ -102,6 +108,11 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         mOnDepositSelectListener = listener;
     }
 
+    public int getCurrentPosition()
+    {
+        return mDepositViewPager.getCurrentItem();
+    }
+
     public interface OnDepositSelectListener
     {
         void OnDepositSelect(int index, DepositInfo item);
@@ -109,7 +120,7 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
 
     private class DepositAdapter extends FragmentStatePagerAdapter
     {
-        private DepositFragment[] mFagments;
+        private DepositFragment[] mFagments = null;
         private DepositInfo[]     mDepositInfos;
 
         public DepositAdapter(FragmentManager fm)
@@ -121,7 +132,10 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         {
             LogTrace.d("infos length : " + infos.length);
             mDepositInfos = infos;
-            mFagments = new DepositFragment[mDepositInfos.length];
+            if(mFagments == null)
+            {
+                mFagments = new DepositFragment[mDepositInfos.length];
+            }
         }
 
         public void displaySelected(int position)
@@ -164,7 +178,6 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         public DepositFragment(DepositInfo info, int position)
         {
             super();
-            LogTrace.d("position : " + position);
             mPosition = position;
             mInfo = info;
         }
@@ -186,7 +199,6 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            LogTrace.d("onCreateView ");
             ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.item_deposit_grid, null);
 
             m_llLayout = (LinearLayout) rootView.findViewById(R.id.llDepositItem);
@@ -194,7 +206,6 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
             m_tvSub1 = (TextView) rootView.findViewById(R.id.tvDepositGridItemSub1);
             m_tvSub2 = (TextView) rootView.findViewById(R.id.tvDepositGridItemSub2);
 
-            LogTrace.d("setText##########");
             m_tvTitle.setText(mInfo.depositName);
             m_tvSub1.setText(mInfo.getTotalMoney());
             m_tvSub2.setText(mInfo.depositNum);

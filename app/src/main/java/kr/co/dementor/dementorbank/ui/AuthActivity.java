@@ -102,6 +102,7 @@ public class AuthActivity extends FragmentActivity
                     }
                     else
                     {
+                        refreshAuth();
                         Intent intent = new Intent(getApplicationContext(), SimpleTransferActivity.class);
                         startActivity(intent);
                     }

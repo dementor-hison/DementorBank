@@ -11,14 +11,21 @@ public class SendBankingInfo
 
     private int sendMoneyValue = 0;
 
+    public int totalMoneyValue = 0;
+
     public void setSendMoneyValue(int money)
     {
         sendMoneyValue = money;
     }
 
-    public String getSendMoneyValue()
+    public String getSendTotalMoneyValue()
     {
-        return String.format(format, sendMoneyValue);
+        return String.format(format, totalMoneyValue);
+    }
+
+    public int getIntegerMoneyValue()
+    {
+        return sendMoneyValue;
     }
 
 }

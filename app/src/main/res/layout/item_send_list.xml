@@ -11,7 +11,7 @@
         android:id="@+id/tvSendItemTargetName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="43.3657"
+        android:layout_weight="40.3657"
         android:gravity="center_vertical"
         android:textColor="@color/color078191255"
         android:textSize="15dp"
@@ -29,11 +29,11 @@
         android:text="@string/send_item_value"/>
 
     <TextView
-        android:id="@+id/tvDepositGridItemSub2"
+        android:id="@+id/tvSendItemMoney"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="36.246"
-        android:gravity="center_vertical"
+        android:layout_weight="39.246"
+        android:gravity="center_vertical|right"
         android:textColor="@android:color/black"
         android:textSize="25dp"
         android:textStyle="bold"

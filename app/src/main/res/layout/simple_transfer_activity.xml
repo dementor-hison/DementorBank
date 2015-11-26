@@ -44,22 +44,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:textColor="@color/color136136136"
                 android:textSize="16.5dp"
                 android:textStyle="bold"
-                android:typeface="normal"
-                android:includeFontPadding="false"/>
+                android:typeface="normal"/>
+
             <TextView
                 android:id="@+id/tvDepositInfoSub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:textColor="@android:color/black"
                 android:textSize="16.5dp"
-                android:typeface="normal"
-                android:includeFontPadding="false"/>
+                android:typeface="normal"/>
+
             <ListView
-                android:id="@+id/lSendList"
+                android:id="@+id/lvSendList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
@@ -73,23 +75,188 @@
             android:padding="15dp">
 
             <LinearLayout
+                android:id="@+id/llTransferTouchArea"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true">
                 <!--Drag icons-->
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vpSelectIcons"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
                     android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
                     android:paddingLeft="14dp"
-                    android:paddingRight="14dp"/>
+                    android:paddingRight="14dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/ivMoney1000"
+                        android:layout_width="0dp"
+                        android:layout_height="52.5dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerInside"
+
+                        android:src="@drawable/icon_money0"/>
+
+                    <ImageView
+                        android:id="@+id/ivMoney10000"
+                        android:layout_width="0dp"
+                        android:layout_height="52.5dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_money1"/>
+
+                    <ImageView
+                        android:id="@+id/ivMoney50000"
+                        android:layout_width="0dp"
+                        android:layout_height="52.5dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_money2"/>
+
+                    <ImageView
+                        android:id="@+id/ivMoney100000"
+                        android:layout_width="0dp"
+                        android:layout_height="52.5dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_money3"/>
+
+                    <ImageView
+                        android:id="@+id/ivMoney1000000"
+                        android:layout_width="0dp"
+                        android:layout_height="52.5dp"
+                        android:layout_weight="1"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_money4"/>
+                </LinearLayout>
                 <!--Target -->
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vpTargetIcons"
+                <LinearLayout
+                    android:id="@+id/llTargetIcons"
                     android:layout_width="match_parent"
                     android:layout_height="73.5dp"
-                    android:layout_marginBottom="7.5dp"/>
+                    android:layout_marginBottom="7.5dp"
+                    android:paddingLeft="14dp"
+                    android:paddingRight="14dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/ivTarget0"
+                            android:layout_width="match_parent"
+                            android:layout_height="52.5dp"
+                            android:layout_marginBottom="7.5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_target0"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:gravity="center"
+                            android:text="저축"
+                            android:textSize="13.5dp"
+                            android:textColor="@color/color078191255"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/ivTarget1"
+                            android:layout_width="match_parent"
+                            android:layout_height="52.5dp"
+                            android:layout_marginBottom="7.5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_target1"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:gravity="center"
+                            android:text="관리비"
+                            android:textSize="13.5dp"
+                            android:textColor="@color/color078191255"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/ivTarget2"
+                            android:layout_width="match_parent"
+                            android:layout_height="52.5dp"
+                            android:layout_marginBottom="7.5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_target2"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:gravity="center"
+                            android:text="부모님"
+                            android:textSize="13.5dp"
+                            android:textColor="@color/color078191255"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/ivTarget3"
+                            android:layout_width="match_parent"
+                            android:layout_height="52.5dp"
+                            android:layout_marginBottom="7.5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_target3"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:gravity="center"
+                            android:text="월세"
+                            android:textSize="13.5dp"
+                            android:textColor="@color/color078191255"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/ivTarget4"
+                            android:layout_width="match_parent"
+                            android:layout_height="52.5dp"
+                            android:layout_marginBottom="7.5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_target4"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:gravity="center"
+                            android:text="피아노"
+                            android:textSize="13.5dp"
+                            android:textColor="@color/color078191255"/>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/ibJaju"
@@ -102,6 +269,7 @@
             </LinearLayout>
 
             <kr.co.dementor.dementorbank.ui.SquareImageView
+                android:id="@+id/sivSendDragIcon"
                 android:layout_width="52.5dp"
                 android:layout_height="52.5dp"
                 android:layout_gravity="left|top"
@@ -117,47 +285,53 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical">
+
         <ImageButton
-            android:id="@+id/ibPrevActivity"
+            android:id="@+id/ibPrevActivity1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:scaleType="fitXY"
             android:src="@drawable/top_arrow_sel"/>
+
         <Button
+            android:id="@+id/ibPrevActivity2"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_toRightOf="@id/ibPrevActivity1"
+            android:background="@android:color/transparent"
             android:gravity="center_vertical"
-            android:layout_toRightOf="@id/ibPrevActivity"
+            android:text="@string/button_prev"
             android:textColor="@color/color136136136"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:typeface="normal"
-            android:background="@android:color/transparent"
-            android:text="@string/button_prev"/>
+            android:typeface="normal"/>
+
         <ImageButton
-            android:id="@+id/ibNextActivity"
+            android:id="@+id/ibNextActivity1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:rotation="180"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:rotation="180"
+            android:scaleType="fitXY"
             android:src="@drawable/top_arrow_sel"/>
+
         <Button
+            android:id="@+id/ibNextActivity2"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/ibNextActivity1"
+            android:background="@android:color/transparent"
             android:gravity="center_vertical|right"
-            android:layout_toLeftOf="@id/ibNextActivity"
+            android:text="@string/button_next"
             android:textColor="@color/color136136136"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:typeface="normal"
-            android:background="@android:color/transparent"
-            android:text="@string/button_next"/>
+            android:typeface="normal"/>
     </RelativeLayout>
 
 </LinearLayout>

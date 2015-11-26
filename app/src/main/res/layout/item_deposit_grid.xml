@@ -37,8 +37,9 @@
             android:duplicateParentState="true"
             android:gravity="center"
             android:textColor="@color/color_sub1_sel"
-            android:textSize="16.5dp"
+            android:textSize="15dp"
             android:typeface="normal"
+            android:textStyle="bold"
             android:includeFontPadding="false"/>
 
         <TextView

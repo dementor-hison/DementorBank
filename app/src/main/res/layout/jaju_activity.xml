@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:top="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/jaju"/>
+
+    <kr.co.dementor.dementorbank.ui.TopView
+        android:id="@+id/jajuTopview"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="top"
+        top:titleText="간편이체"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/ibJajuPrevActivity1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/top_arrow_sel"/>
+
+        <Button
+            android:id="@+id/ibJajuPrevActivity2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/ibJajuPrevActivity1"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:text="@string/button_prev"
+            android:textColor="@color/color136136136"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:typeface="normal"/>
+
+        <ImageButton
+            android:id="@+id/ibJajuNextActivity1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:rotation="180"
+            android:scaleType="fitXY"
+            android:src="@drawable/top_arrow_sel"/>
+
+        <Button
+            android:id="@+id/ibJajuNextActivity2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/ibJajuNextActivity1"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|right"
+            android:text="@string/button_next"
+            android:textColor="@color/color136136136"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:typeface="normal"/>
+    </RelativeLayout>
+</FrameLayout>
