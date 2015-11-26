@@ -18,37 +18,14 @@
         android:layout_weight="92.20"
         android:orientation="vertical"
         android:padding="10dp">
+
         <!-- ViewPager Start-->
-        <LinearLayout
+        <kr.co.dementor.dementorbank.ui.DepositSelectView
+            android:id="@+id/depositSelectView"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/move_back"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/ibPrevDeposit"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/move_arrow_l"/>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vpDepositPager"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:id="@+id/ibNextDeposit"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/move_arrow_r"/>
-
-        </LinearLayout>
+            android:layout_marginBottom="8dp">
+        </kr.co.dementor.dementorbank.ui.DepositSelectView>
         <!-- ViewPager End-->
 
         <!-- BankingList Start-->
@@ -64,21 +41,23 @@
             <TextView
                 android:id="@+id/tvDepositInfoTitle"
                 android:layout_width="match_parent"
-                android:layout_height="16.5dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/color136136136"
                 android:textSize="16.5dp"
                 android:textStyle="bold"
-                android:typeface="normal"/>
+                android:typeface="normal"
+                android:includeFontPadding="false"/>
             <TextView
                 android:id="@+id/tvDepositInfoSub"
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/black"
                 android:textSize="16.5dp"
-                android:typeface="normal"/>
+                android:typeface="normal"
+                android:includeFontPadding="false"/>
             <ListView
                 android:id="@+id/lSendList"
                 android:layout_width="match_parent"

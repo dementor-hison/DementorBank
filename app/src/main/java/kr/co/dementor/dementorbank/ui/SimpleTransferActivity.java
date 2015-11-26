@@ -1,18 +1,13 @@
 package kr.co.dementor.dementorbank.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.Set;
+import android.widget.TextView;
 
 import kr.co.dementor.dementorbank.R;
-import kr.co.dementor.dementorbank.adapter.DepositPagerAdapter;
 import kr.co.dementor.dementorbank.common.LogTrace;
-import kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.fragment.DepositFragment;
 
 /**
  * Created by dementor1 on 15. 11. 24..
@@ -20,9 +15,9 @@ import kr.co.dementor.dementorbank.kr.co.dementor.dementorbank.fragment.DepositF
 public class SimpleTransferActivity extends FragmentActivity
 {
     private TopView m_transferTopView = null;
-    private ViewPager m_vpDepositPager = null;
-    private DepositPagerAdapter mDepositPagerAdapter = null;
-    private ArrayList<DepositInfo> mArraylist = null;
+    private DepositSelectView m_depositSelectView;
+    private TextView          m_tvDepositInfoTitle;
+    private TextView          m_tvDepositInfoSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,21 +31,46 @@ public class SimpleTransferActivity extends FragmentActivity
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
+
+        LogTrace.d("");
+
         super.onResume();
-
-        setPagerView();
     }
 
-    private void setPagerView() {
-        mDepositPagerAdapter = new DepositPagerAdapter(getSupportFragmentManager());
-        mDepositPagerAdapter.setDepositItems(makeTempList());
+    @Override
+    protected void onResumeFragments()
+    {
+        LogTrace.d("");
+        super.onResumeFragments();
 
-        m_vpDepositPager.setAdapter(mDepositPagerAdapter);
-        m_vpDepositPager.setOffscreenPageLimit(4);
-        m_vpDepositPager.addOnPageChangeListener(mPageChangeListener);
-        m_vpDepositPager.setCurrentItem(0);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                m_depositSelectView.setDepositList(makeDepositItems(), getSupportFragmentManager());
+            }
+        }, 100);
     }
+
+    @Override
+    public void onAttachFragment(Fragment fragment)
+    {
+        LogTrace.d("");
+        super.onAttachFragment(fragment);
+    }
+
+    @Override
+    protected void onPostResume()
+    {
+        LogTrace.d("");
+        super.onPostResume();
+    }
+
+
 
     private void initView()
     {
@@ -60,33 +80,37 @@ public class SimpleTransferActivity extends FragmentActivity
         m_transferTopView.setHelpButtonVisible(false);
         m_transferTopView.setConfirmButtonVisible(false);
 
-        m_vpDepositPager = (ViewPager)findViewById(R.id.vpDepositPager);
+        m_depositSelectView = (DepositSelectView)findViewById(R.id.depositSelectView);
+        m_depositSelectView.setOnDepositSelectListener(mOnDepositSelectListener);
+
+        m_tvDepositInfoTitle = (TextView)findViewById(R.id.tvDepositInfoTitle);
+        m_tvDepositInfoSub = (TextView)findViewById(R.id.tvDepositInfoSub);
     }
 
-    private ArrayList<DepositInfo> makeTempList() {
-        //가라....
-        mArraylist = new ArrayList<>();
-        DepositInfo item = new DepositInfo();
-        item.depositName = "보통예금";
-        item.depositNum = "1234-5678-900";
-        item.setTotalMoney(1000000);
-        mArraylist.add(item);
-        item = new DepositInfo();
-        item.depositName = "저축예금";
-        item.depositNum = "1234-5678-900";
-        item.setTotalMoney(2000000);
-        mArraylist.add(item);
-        item = new DepositInfo();
-        item.depositName = "청약저축";
-        item.depositNum = "1234-5678-900";
-        item.setTotalMoney(3000000);
-        mArraylist.add(item);
-        item = new DepositInfo();
-        item.depositName = "월급통장";
-        item.depositNum = "1234-5678-900";
-        item.setTotalMoney(3000000);
-        mArraylist.add(item);
-        return  mArraylist;
+    private DepositInfo[] makeDepositItems()
+    {
+        DepositInfo[] infos = new DepositInfo[4];
+        infos[0] = new DepositInfo();
+        infos[0].depositName = "보통예금";
+        infos[0].depositNum = "111-222-3333";
+        infos[0].setTotalMoney(1000000);
+
+        infos[1] = new DepositInfo();
+        infos[1].depositName = "저축예금";
+        infos[1].depositNum = "111-222-3333";
+        infos[1].setTotalMoney(2000000);
+
+        infos[2] = new DepositInfo();
+        infos[2].depositName = "청약통장";
+        infos[2].depositNum = "111-222-3333";
+        infos[2].setTotalMoney(3000000);
+
+        infos[3] = new DepositInfo();
+        infos[3].depositName = "월급통장";
+        infos[3].depositNum = "111-222-3333";
+        infos[3].setTotalMoney(4000000);
+
+        return infos;
     }
 
     @Override
@@ -123,29 +147,14 @@ public class SimpleTransferActivity extends FragmentActivity
         }
     };
 
-
-    ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener()
+    DepositSelectView.OnDepositSelectListener mOnDepositSelectListener = new DepositSelectView.OnDepositSelectListener()
     {
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        public void OnDepositSelect(int index, DepositInfo item)
         {
-            LogTrace.d("position : " + position);
-            DepositFragment f = (DepositFragment)mDepositPagerAdapter.getItem(position);
-        }
-
-        @Override
-        public void onPageSelected(int position)
-        {
-            LogTrace.d("position : " + position);
-            DepositFragment f = (DepositFragment)mDepositPagerAdapter.getItem(position);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state)
-        {
-            LogTrace.d("");
+            m_tvDepositInfoTitle.setText(item.depositName);
+            m_tvDepositInfoSub.setText(item.depositNum);
         }
     };
-
 
 }
