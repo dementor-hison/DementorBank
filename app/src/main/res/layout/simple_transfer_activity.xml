@@ -44,20 +44,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:textColor="@color/color136136136"
                 android:textSize="16.5dp"
                 android:textStyle="bold"
-                android:typeface="normal"
-                android:includeFontPadding="false"/>
+                android:typeface="normal"/>
+
             <TextView
                 android:id="@+id/tvDepositInfoSub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:textColor="@android:color/black"
                 android:textSize="16.5dp"
-                android:typeface="normal"
-                android:includeFontPadding="false"/>
+                android:typeface="normal"/>
+
             <ListView
                 android:id="@+id/lSendList"
                 android:layout_width="match_parent"
@@ -73,23 +75,68 @@
             android:padding="15dp">
 
             <LinearLayout
+                android:id="@+id/llDragArea"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <!--Drag icons-->
-                <android.support.v4.view.ViewPager
+                <LinearLayout
                     android:id="@+id/vpSelectIcons"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
                     android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
                     android:paddingLeft="14dp"
-                    android:paddingRight="14dp"/>
+                    android:paddingRight="14dp">
+                    <ImageView
+                        android:id="@+id/sivMoney1000"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52.5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_money0"/>
+                    <ImageView
+                        android:id="@+id/sivMoney10000"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52.5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_money1"/>
+                    <ImageView
+                        android:id="@+id/sivMoney50000"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52.5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_money2"/>
+                    <ImageView
+                        android:id="@+id/sivMoney100000"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52.5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_money3"/>
+                    <ImageView
+                        android:id="@+id/sivMoney1000000"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="52.5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_money4"/>
+                </LinearLayout>
                 <!--Target -->
+
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/vpTargetIcons"
                     android:layout_width="match_parent"
                     android:layout_height="73.5dp"
                     android:layout_marginBottom="7.5dp"/>
+
+
+
+
+
 
                 <ImageButton
                     android:id="@+id/ibJaju"
@@ -107,6 +154,12 @@
                 android:layout_gravity="left|top"
                 android:scaleType="fitXY"
                 android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/ivTransferDragIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:visibility="gone"/>
         </FrameLayout>
         <!-- Drag End-->
 
@@ -117,47 +170,51 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical">
+
         <ImageButton
             android:id="@+id/ibPrevActivity"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:scaleType="fitXY"
             android:src="@drawable/top_arrow_sel"/>
+
         <Button
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_toRightOf="@id/ibPrevActivity"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:text="@string/button_prev"
             android:textColor="@color/color136136136"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:typeface="normal"
-            android:background="@android:color/transparent"
-            android:text="@string/button_prev"/>
+            android:typeface="normal"/>
+
         <ImageButton
             android:id="@+id/ibNextActivity"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:rotation="180"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:rotation="180"
+            android:scaleType="fitXY"
             android:src="@drawable/top_arrow_sel"/>
+
         <Button
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
             android:layout_toLeftOf="@id/ibNextActivity"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|right"
+            android:text="@string/button_next"
             android:textColor="@color/color136136136"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:typeface="normal"
-            android:background="@android:color/transparent"
-            android:text="@string/button_next"/>
+            android:typeface="normal"/>
     </RelativeLayout>
 
 </LinearLayout>

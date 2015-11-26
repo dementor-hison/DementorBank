@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/llSendTargetFragment"
+        android:layout_width="52.5dp"
+        android:layout_height="73.5dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/ivSendTargetImage"
+            android:layout_width="match_parent"
+            android:layout_height="52.5dp"
+            android:layout_marginBottom="7.5dp"
+            android:scaleType="fitCenter"
+            android:duplicateParentState="true"/>
+
+        <TextView
+            android:id="@+id/tvSendTargetName"
+            android:layout_width="match_parent"
+            android:layout_height="12.5dp"
+            android:duplicateParentState="true"
+            android:gravity="center"
+            android:textColor="@color/color078191255"
+            android:textSize="12.5dp"
+            android:typeface="normal"
+            android:text="확인중"
+            android:includeFontPadding="false"/>
+    </LinearLayout>
+</LinearLayout>

@@ -187,7 +187,7 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             LogTrace.d("onCreateView ");
-            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.item_deposit_grid, null);
+            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.item_deposit_fragment, null);
 
             m_llLayout = (LinearLayout) rootView.findViewById(R.id.llDepositItem);
             m_tvTitle = (TextView) rootView.findViewById(R.id.tvDepositGridItemTitle);
