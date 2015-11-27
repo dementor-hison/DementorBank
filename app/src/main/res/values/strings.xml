@@ -21,5 +21,6 @@
 
     <string name="preference_key_never_see_regist">never_see_regist</string>
     <string name="preference_key_never_see_auth">never_see_auth</string>
+    <string name="target_piano">피아노</string>
 
 </resources>

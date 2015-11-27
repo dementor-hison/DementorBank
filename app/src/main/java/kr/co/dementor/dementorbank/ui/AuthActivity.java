@@ -140,7 +140,7 @@ public class AuthActivity extends FragmentActivity
         @Override
         public void OnHelp()
         {
-            Toast.makeText(getApplicationContext(), "아직 구현 안됨", Toast.LENGTH_SHORT).show();
+            showHelp();
         }
 
         @Override
@@ -204,7 +204,14 @@ public class AuthActivity extends FragmentActivity
 
     private void hideHelp()
     {
+        m_ibKeySetting.setClickable(true);
         m_flAuthGuide.setVisibility(FrameLayout.GONE);
+    }
+
+    private void showHelp()
+    {
+        m_ibKeySetting.setClickable(false);
+        m_flAuthGuide.setVisibility(FrameLayout.VISIBLE);
     }
 
     @Override

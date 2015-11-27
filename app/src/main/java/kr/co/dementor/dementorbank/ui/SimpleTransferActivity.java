@@ -8,13 +8,12 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,45 +54,14 @@ public class SimpleTransferActivity extends FragmentActivity
             //not used...
         }
     };
-    View.OnDragListener       mOnDragListener    = new View.OnDragListener()
-    {
-        @Override
-        public boolean onDrag(View v, DragEvent event)
-        {
-            float x = event.getX();
-            float y = event.getY();
 
-            LogTrace.d("x : " + x + " , y : " + y);
-
-            switch (event.getAction())
-            {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    LogTrace.d("ACTION_DRAG_STARTED");
-                    break;
-                case DragEvent.ACTION_DRAG_ENDED:
-                    LogTrace.d("ACTION_DRAG_ENDED");
-                    break;
-                case DragEvent.ACTION_DRAG_ENTERED:
-                    LogTrace.d("ACTION_DRAG_ENTERED");
-                    break;
-                case DragEvent.ACTION_DRAG_EXITED:
-                    LogTrace.d("ACTION_DRAG_EXITED");
-                    break;
-                case DragEvent.ACTION_DRAG_LOCATION:
-                    LogTrace.d("ACTION_DRAG_LOCATION");
-                    break;
-            }
-
-            return false;
-        }
-    };
     private ArrayList<ImageView> m_arrTargetList = new ArrayList<ImageView>(5);
     private ArrayList<ImageView> m_arrDragList   = new ArrayList<ImageView>(5);
     private String               mSaveName       = "";
     private ImageView            mDragImage      = null;
-    private ListView m_lvSendList;
-    private SendBankingAdapter         mSendListAdapter  = null;
-    private ArrayList<SendBankingInfo> mArrayBankingList = new ArrayList<SendBankingInfo>();
+    private ExpandableListView m_lvSendList;
+    private SendBankingAdapter mSendListAdapter = null;
+
     View.OnClickListener mOnClickListener = new View.OnClickListener()
     {
         @Override
@@ -119,7 +87,6 @@ public class SimpleTransferActivity extends FragmentActivity
                     finish();
                     break;
             }
-
         }
     };
     private TopView m_transferTopView = null;
@@ -131,8 +98,7 @@ public class SimpleTransferActivity extends FragmentActivity
         @Override
         public void OnDepositSelect(int index, DepositInfo item)
         {
-            m_tvDepositInfoTitle.setText(item.depositName);
-            m_tvDepositInfoSub.setText(item.depositNum);
+
         }
     };
     private SquareImageView m_sivDragIcon;
@@ -178,14 +144,13 @@ public class SimpleTransferActivity extends FragmentActivity
 
                     if (hitImage != null)
                     {
-                        SendBankingInfo sendInfo = (SendBankingInfo) mDragImage.getTag();
+                        setTargetName(mCurrentBankUnit, hitImage);
 
-                        sendInfo.sendTargetName = (String) hitImage.getTag();
-
-                        addSendListView(sendInfo);
+                        addSendListView(mCurrentBankUnit);
                     }
                     else
                     {
+                        mCurrentBankUnit = null;
                         Toast.makeText(getApplicationContext(), "정확히 드래그 해 주세요.", Toast.LENGTH_SHORT).show();
                     }
 
@@ -202,47 +167,63 @@ public class SimpleTransferActivity extends FragmentActivity
         }
     };
 
-    private void addSendListView(SendBankingInfo sendInfo)
+    private BankingUnit setTargetName(BankingUnit bankUnit, ImageView hitImage)
     {
-        if (mSendListAdapter == null || m_lvSendList.getAdapter() == null)
+        switch (hitImage.getId())
         {
-            mSendListAdapter = new SendBankingAdapter(getApplicationContext(), R.layout.item_send_list);
-
-            m_lvSendList.setAdapter(mSendListAdapter);
-        }
-
-        int position = -1;
-        for (int i = 0 ; i < mArrayBankingList.size() ; i ++)
-        {
-            SendBankingInfo alreadyinfo = mArrayBankingList.get(i);
-            if(alreadyinfo.sendTargetName == sendInfo.sendTargetName)
-            {
-                position = i;
+            case R.id.ivTarget0:
+                bankUnit.targetName = ((TextView) findViewById(R.id.tvTarget0)).getText().toString();
                 break;
-            }
+            case R.id.ivTarget1:
+                bankUnit.targetName = ((TextView) findViewById(R.id.tvTarget1)).getText().toString();
+                break;
+            case R.id.ivTarget2:
+                bankUnit.targetName = ((TextView) findViewById(R.id.tvTarget2)).getText().toString();
+                break;
+            case R.id.ivTarget3:
+                bankUnit.targetName = ((TextView) findViewById(R.id.tvTarget3)).getText().toString();
+                break;
+            case R.id.ivTarget4:
+                bankUnit.targetName = ((TextView) findViewById(R.id.tvTarget4)).getText().toString();
+                break;
         }
 
-        if(position == -1)
+        return bankUnit;
+    }
+
+    private BankingUnit                  mCurrentBankUnit = null;
+
+
+    private void addSendListView(BankingUnit unit)
+    {
+        if(m_depositSelectView.getCurrentDepositInfo() == null)
         {
-            sendInfo.totalMoneyValue = sendInfo.getIntegerMoneyValue();
-            mArrayBankingList.add(sendInfo);
+            LogTrace.e("Null");
+        }
+
+        DepositInfo currentDepositInfo = m_depositSelectView.getCurrentDepositInfo();
+
+        if(mSendListAdapter.contains(currentDepositInfo.depositName))
+        {
+            mSendListAdapter.updateBankingData(currentDepositInfo.depositName, unit);
         }
         else
         {
-            SendBankingInfo alreadyInfo = mArrayBankingList.get(position);
-            alreadyInfo.totalMoneyValue += sendInfo.getIntegerMoneyValue();
-        }
+            BankingInfomation newInfomation = new BankingInfomation(currentDepositInfo);
+            newInfomation.addBanking(unit);
 
-        mSendListAdapter.setBankingInfoList(mArrayBankingList);
+            mSendListAdapter.addBankingData(newInfomation);
+        }
 
         mSendListAdapter.notifyDataSetChanged();
 
-        m_lvSendList.smoothScrollToPosition(mArrayBankingList.size() - 1);
+        m_lvSendList.setSelectedGroup(mSendListAdapter.findGroupPosition(currentDepositInfo.depositName));
+
+        m_lvSendList.expandGroup(mSendListAdapter.findGroupPosition(currentDepositInfo.depositName));
     }
 
     private void resetActivity()
     {
-        mArrayBankingList.clear();
         if (mSendListAdapter != null)
         {
             mSendListAdapter.notifyDataSetChanged();
@@ -269,44 +250,43 @@ public class SimpleTransferActivity extends FragmentActivity
         m_sivDragIcon.setLayoutParams(params);
     }
 
-    private void makeDragImage(ImageView v, int x, int y)
+    private BankingUnit makeDragImage(ImageView v, int x, int y)
     {
-        SendBankingInfo info = (SendBankingInfo) v.getTag();
-
-        if (info == null)
+        if(v == null)
         {
-            LogTrace.w("SendBankingInfo info null");
-            m_sivDragIcon.setImageDrawable(v.getDrawable());
+            return null;
         }
-        else
-        {
-            LogTrace.w("setImageResource ok");
-            switch (info.getIntegerMoneyValue())
-            {
-                case 1000:
-                    m_sivDragIcon.setImageResource(R.drawable.icon_money0);
-                    break;
-                case 10000:
-                    m_sivDragIcon.setImageResource(R.drawable.icon_money1);
-                    break;
-                case 50000:
-                    m_sivDragIcon.setImageResource(R.drawable.icon_money2);
-                    break;
-                case 100000:
-                    m_sivDragIcon.setImageResource(R.drawable.icon_money3);
-                    break;
-                case 1000000:
-                    m_sivDragIcon.setImageResource(R.drawable.icon_money4);
-                    break;
-                default:
-                    LogTrace.e("What?? 0_o");
-                    break;
-            }
 
+        mCurrentBankUnit = new BankingUnit();
+        switch (v.getId())
+        {
+            case R.id.ivMoney1000:
+                m_sivDragIcon.setImageResource(R.drawable.icon_money0);
+                mCurrentBankUnit.sendMoney = 1000;
+                break;
+            case R.id.ivMoney10000:
+                m_sivDragIcon.setImageResource(R.drawable.icon_money1);
+                mCurrentBankUnit.sendMoney = 10000;
+                break;
+            case R.id.ivMoney50000:
+                m_sivDragIcon.setImageResource(R.drawable.icon_money2);
+                mCurrentBankUnit.sendMoney = 50000;
+                break;
+            case R.id.ivMoney100000:
+                m_sivDragIcon.setImageResource(R.drawable.icon_money3);
+                mCurrentBankUnit.sendMoney = 100000;
+                break;
+            case R.id.ivMoney1000000:
+                m_sivDragIcon.setImageResource(R.drawable.icon_money4);
+                mCurrentBankUnit.sendMoney = 1000000;
+                break;
+            default:
+                LogTrace.d("Wrong click..");
+                mCurrentBankUnit = null;
+                return null;
         }
 
         m_sivDragIcon.setVisibility(View.VISIBLE);
-
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) (v.getWidth()), (int) (v.getHeight()));
 
@@ -316,6 +296,7 @@ public class SimpleTransferActivity extends FragmentActivity
 
         m_sivDragIcon.setLayoutParams(params);
 
+        return mCurrentBankUnit;
     }
 
     private ImageView getHitImageView(int x, int y)
@@ -415,7 +396,11 @@ public class SimpleTransferActivity extends FragmentActivity
 
     private void initView()
     {
-        m_lvSendList = (ListView) findViewById(R.id.lvSendList);
+        m_lvSendList = (ExpandableListView) findViewById(R.id.exListSendView);
+
+        mSendListAdapter = new SendBankingAdapter(getApplicationContext());
+
+        m_lvSendList.setAdapter(mSendListAdapter);
 
         m_transferTopView = (TopView) findViewById(R.id.transferTopView);
         m_transferTopView.setOnTopViewListener(mOnTopViewListener);
@@ -443,26 +428,6 @@ public class SimpleTransferActivity extends FragmentActivity
 
         llTransferTouchArea.setOnTouchListener(mOnTouchListener);
 
-        SendBankingInfo info = new SendBankingInfo();
-        info.setSendMoneyValue(1000);
-        ivMoney1000.setTag(info);
-
-        info = new SendBankingInfo();
-        info.setSendMoneyValue(10000);
-        ivMoney10000.setTag(info);
-
-        info = new SendBankingInfo();
-        info.setSendMoneyValue(50000);
-        ivMoney50000.setTag(info);
-
-        info = new SendBankingInfo();
-        info.setSendMoneyValue(100000);
-        ivMoney100000.setTag(info);
-
-        info = new SendBankingInfo();
-        info.setSendMoneyValue(1000000);
-        ivMoney1000000.setTag(info);
-
         m_arrDragList.clear();
         m_arrDragList.add(ivMoney1000);
         m_arrDragList.add(ivMoney10000);
@@ -476,12 +441,6 @@ public class SimpleTransferActivity extends FragmentActivity
         ImageView ivTarget3 = (ImageView) findViewById(R.id.ivTarget3);
         ImageView ivTarget4 = (ImageView) findViewById(R.id.ivTarget4);
 
-        ivTarget0.setTag("저축");
-        ivTarget1.setTag("관리비");
-        ivTarget2.setTag("부모님");
-        ivTarget3.setTag("월세");
-        ivTarget4.setTag("피아노");
-
         m_arrTargetList.clear();
         m_arrTargetList.add(ivTarget0);
         m_arrTargetList.add(ivTarget1);
@@ -494,28 +453,29 @@ public class SimpleTransferActivity extends FragmentActivity
         findViewById(R.id.ibJaju).setOnClickListener(mOnClickListener);
     }
 
+
     private DepositInfo[] makeDepositItems()
     {
         DepositInfo[] infos = new DepositInfo[4];
         infos[0] = new DepositInfo();
         infos[0].depositName = "보통예금";
         infos[0].depositNum = "1111-222-3333";
-        infos[0].setTotalMoney(10000000);
+        infos[0].setTotalSavedMoney(10000000);
 
         infos[1] = new DepositInfo();
         infos[1].depositName = "저축예금";
         infos[1].depositNum = "2222-333-4444";
-        infos[1].setTotalMoney(20000000);
+        infos[1].setTotalSavedMoney(20000000);
 
         infos[2] = new DepositInfo();
         infos[2].depositName = "청약통장";
         infos[2].depositNum = "3333-444-5555";
-        infos[2].setTotalMoney(30000000);
+        infos[2].setTotalSavedMoney(30000000);
 
         infos[3] = new DepositInfo();
         infos[3].depositName = "월급통장";
         infos[3].depositNum = "4444-555-6666";
-        infos[3].setTotalMoney(40000000);
+        infos[3].setTotalSavedMoney(40000000);
 
         return infos;
     }

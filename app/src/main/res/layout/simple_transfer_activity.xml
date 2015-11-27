@@ -36,34 +36,15 @@
             android:layout_weight="1"
             android:background="@drawable/content_box"
             android:orientation="vertical"
-            android:padding="15dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp">
 
-            <TextView
-                android:id="@+id/tvDepositInfoTitle"
+            <ExpandableListView
+                android:id="@+id/exListSendView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:textColor="@color/color136136136"
-                android:textSize="16.5dp"
-                android:textStyle="bold"
-                android:typeface="normal"/>
-
-            <TextView
-                android:id="@+id/tvDepositInfoSub"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:textColor="@android:color/black"
-                android:textSize="16.5dp"
-                android:typeface="normal"/>
-
-            <ListView
-                android:id="@+id/lvSendList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                />
         </LinearLayout>
         <!-- BankingList Start-->
 
@@ -154,6 +135,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/icon_target0"/>
                         <TextView
+                            android:id="@+id/tvTarget0"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -178,6 +160,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/icon_target1"/>
                         <TextView
+                            android:id="@+id/tvTarget1"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -201,6 +184,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/icon_target2"/>
                         <TextView
+                            android:id="@+id/tvTarget2"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -224,6 +208,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/icon_target3"/>
                         <TextView
+                            android:id="@+id/tvTarget3"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -247,6 +232,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/icon_target4"/>
                         <TextView
+                            android:id="@+id/tvTarget4"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"

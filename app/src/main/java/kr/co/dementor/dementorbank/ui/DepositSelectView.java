@@ -113,6 +113,12 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
         return mDepositViewPager.getCurrentItem();
     }
 
+    public DepositInfo getCurrentDepositInfo()
+    {
+        LogTrace.d("mDepositViewPager.getCurrentItem() : " + mDepositViewPager.getCurrentItem());
+        return mItems[mDepositViewPager.getCurrentItem()];
+    }
+
     public interface OnDepositSelectListener
     {
         void OnDepositSelect(int index, DepositInfo item);
@@ -207,7 +213,7 @@ public class DepositSelectView extends LinearLayout implements View.OnClickListe
             m_tvSub2 = (TextView) rootView.findViewById(R.id.tvDepositGridItemSub2);
 
             m_tvTitle.setText(mInfo.depositName);
-            m_tvSub1.setText(mInfo.getTotalMoney());
+            m_tvSub1.setText(mInfo.getTotalSavedMoneyString());
             m_tvSub2.setText(mInfo.depositNum);
 
             m_llLayout.setOnClickListener(this);

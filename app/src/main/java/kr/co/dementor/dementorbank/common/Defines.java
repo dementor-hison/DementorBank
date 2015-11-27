@@ -21,7 +21,7 @@ public class Defines
 
     public static final int WHITE_AREA = -1;
 
-    public static final ArrayList<Integer> RES_ID_NUM = new ArrayList<Integer>
+    public static final ArrayList<Integer> RES_ID_NUM                = new ArrayList<Integer>
             (
                     Arrays.asList
                             (R.drawable.idm000132012,
@@ -35,7 +35,7 @@ public class Defines
                              R.drawable.idm008132012,
                              R.drawable.idm009132012)
             );
-    public static final ArrayList<Integer> RES_ID_ENG = new ArrayList<Integer>
+    public static final ArrayList<Integer> RES_ID_ENG                = new ArrayList<Integer>
             (
                     Arrays.asList
                             (R.drawable.idm000041306,
@@ -65,7 +65,7 @@ public class Defines
                              R.drawable.idm024041306,
                              R.drawable.idm025041306)
             );
-    public static final ArrayList<Integer> RES_ID_HAN = new ArrayList<Integer>
+    public static final ArrayList<Integer> RES_ID_HAN                = new ArrayList<Integer>
             (
                     Arrays.asList
                             (R.drawable.idm000101417,
@@ -98,7 +98,7 @@ public class Defines
                              R.drawable.idm027101417,
                              R.drawable.idm028101417)
             );
-    public static final ArrayList<Integer> RES_ID_PRIVATE = new ArrayList<Integer>
+    public static final ArrayList<Integer> RES_ID_PRIVATE            = new ArrayList<Integer>
             (
                     Arrays.asList
                             (R.drawable.private_01,
@@ -142,6 +142,25 @@ public class Defines
                              R.drawable.hint_key01,
                              R.drawable.hint_key02,
                              R.drawable.hint_key03)
+            );
+    public static final ArrayList<Integer> RES_ID_DRAG = new ArrayList<Integer>
+            (
+                    Arrays.asList
+                            (R.drawable.icon_money0,
+                             R.drawable.icon_money1,
+                             R.drawable.icon_money2,
+                             R.drawable.icon_money3,
+                             R.drawable.icon_money4)
+            );
+    public static final ArrayList<String> SEND_TARGET_LIST = new ArrayList<String>
+            (
+                    Arrays.asList
+                            ("저축",
+                             "관리비",
+                             "부모님",
+                             "월세",
+                             "피아노"
+                            )
             );
 
     public static enum RegistStatus
@@ -216,4 +235,6 @@ public class Defines
         public static final int ARROW2 = 1;
         public static final int ARROW3 = 2;
     }
+
+
 }
