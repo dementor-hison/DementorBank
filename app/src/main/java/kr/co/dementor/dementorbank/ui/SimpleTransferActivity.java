@@ -460,17 +460,17 @@ public class SimpleTransferActivity extends FragmentActivity
         DepositInfo[] infos = new DepositInfo[4];
         infos[0] = new DepositInfo();
         infos[0].depositName = "보통예금";
-        infos[0].depositNum = "1111-222-3333";
+        infos[0].depositNum = "8562-231-1209";
         infos[0].setTotalSavedMoney(10000000);
 
         infos[1] = new DepositInfo();
         infos[1].depositName = "저축예금";
-        infos[1].depositNum = "2222-333-4444";
+        infos[1].depositNum = "1234-222-9012";
         infos[1].setTotalSavedMoney(20000000);
 
         infos[2] = new DepositInfo();
         infos[2].depositName = "청약통장";
-        infos[2].depositNum = "3333-444-5555";
+        infos[2].depositNum = "5253-010-9122";
         infos[2].setTotalSavedMoney(30000000);
 
         infos[3] = new DepositInfo();
