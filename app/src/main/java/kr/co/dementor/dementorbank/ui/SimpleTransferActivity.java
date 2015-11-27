@@ -54,14 +54,20 @@ public class SimpleTransferActivity extends FragmentActivity
             //not used...
         }
     };
+    DepositSelectView.OnDepositSelectListener mOnDepositSelectListener = new DepositSelectView.OnDepositSelectListener()
+    {
+        @Override
+        public void OnDepositSelect(int index, DepositInfo item)
+        {
 
+        }
+    };
     private ArrayList<ImageView> m_arrTargetList = new ArrayList<ImageView>(5);
     private ArrayList<ImageView> m_arrDragList   = new ArrayList<ImageView>(5);
     private String               mSaveName       = "";
     private ImageView            mDragImage      = null;
     private ExpandableListView m_lvSendList;
     private SendBankingAdapter mSendListAdapter = null;
-
     View.OnClickListener mOnClickListener = new View.OnClickListener()
     {
         @Override
@@ -93,15 +99,8 @@ public class SimpleTransferActivity extends FragmentActivity
     private DepositSelectView m_depositSelectView;
     private TextView          m_tvDepositInfoTitle;
     private TextView          m_tvDepositInfoSub;
-    DepositSelectView.OnDepositSelectListener mOnDepositSelectListener = new DepositSelectView.OnDepositSelectListener()
-    {
-        @Override
-        public void OnDepositSelect(int index, DepositInfo item)
-        {
-
-        }
-    };
     private SquareImageView m_sivDragIcon;
+    private BankingUnit mCurrentBankUnit = null;
     View.OnTouchListener mOnTouchListener = new View.OnTouchListener()
     {
         @Override
@@ -166,6 +165,7 @@ public class SimpleTransferActivity extends FragmentActivity
             return false;
         }
     };
+    private int mSavedPosition = 1;
 
     private BankingUnit setTargetName(BankingUnit bankUnit, ImageView hitImage)
     {
@@ -191,19 +191,16 @@ public class SimpleTransferActivity extends FragmentActivity
         return bankUnit;
     }
 
-    private BankingUnit                  mCurrentBankUnit = null;
-
-
     private void addSendListView(BankingUnit unit)
     {
-        if(m_depositSelectView.getCurrentDepositInfo() == null)
+        if (m_depositSelectView.getCurrentDepositInfo() == null)
         {
             LogTrace.e("Null");
         }
 
         DepositInfo currentDepositInfo = m_depositSelectView.getCurrentDepositInfo();
 
-        if(mSendListAdapter.contains(currentDepositInfo.depositName))
+        if (mSendListAdapter.contains(currentDepositInfo.depositName))
         {
             mSendListAdapter.updateBankingData(currentDepositInfo.depositName, unit);
         }
@@ -226,6 +223,11 @@ public class SimpleTransferActivity extends FragmentActivity
     {
         if (mSendListAdapter != null)
         {
+            if (mSendListAdapter.getBankingData() != null)
+            {
+                mSendListAdapter.getBankingData().clear();
+            }
+
             mSendListAdapter.notifyDataSetChanged();
         }
 
@@ -252,7 +254,7 @@ public class SimpleTransferActivity extends FragmentActivity
 
     private BankingUnit makeDragImage(ImageView v, int x, int y)
     {
-        if(v == null)
+        if (v == null)
         {
             return null;
         }
@@ -358,7 +360,6 @@ public class SimpleTransferActivity extends FragmentActivity
         super.onResume();
     }
 
-    private int mSavedPosition = 1;
     @Override
     protected void onPause()
     {

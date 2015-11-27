@@ -103,7 +103,7 @@ public class AuthActivity extends FragmentActivity
                     else
                     {
                         refreshAuth();
-                        Intent intent = new Intent(getApplicationContext(), SimpleTransferActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), BankMainActivity.class);
                         startActivity(intent);
                     }
                     break;
@@ -179,8 +179,6 @@ public class AuthActivity extends FragmentActivity
                     {
                         mAlertDialog.dismiss();
                     }
-
-                    finish();
 
                     break;
 

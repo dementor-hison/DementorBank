@@ -26,6 +26,12 @@
             android:name=".ui.SimpleTransferActivity">
         </activity>
         <activity
+            android:name=".ui.BankMainActivity">
+        </activity>
+        <activity
+            android:name=".ui.SearchMyDepositActivity">
+        </activity>
+        <activity
             android:name=".ui.JajuActivity">
         </activity>
     </application>
