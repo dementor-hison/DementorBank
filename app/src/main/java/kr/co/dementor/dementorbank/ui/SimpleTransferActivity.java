@@ -113,7 +113,6 @@ public class SimpleTransferActivity extends FragmentActivity
             switch (event.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
-                    LogTrace.d("ACTION_DOWN name : " + (String) v.getTag());
 
                     mDragImage = getDragImageView((int) event.getRawX(), (int) event.getRawY());
 

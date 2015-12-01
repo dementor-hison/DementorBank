@@ -3,6 +3,7 @@ package kr.co.dementor.dementorbank.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -143,16 +144,7 @@ public class RegistActivity extends FragmentActivity
                     break;
                 case R.id.ivStatus:
                 case R.id.ivStatusAnim:
-                    if (m_actionPopup.getVisibility() == View.VISIBLE)
-                    {
-                        m_actionPopup.setVisibilityWithAnimation(View.GONE);
-                    }
-                    else
-                    {
-                        m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
-                    }
-                    break;
-
+                    handler.post(runShowActionPopup);
                 case R.id.ibRegisterNeverSee:
 
                     DementorUtil.savePreferance(getApplicationContext(), getString(R.string.preference_key_never_see_regist), true);
@@ -169,6 +161,29 @@ public class RegistActivity extends FragmentActivity
                     LogTrace.i("What??? 0_o");
                     break;
             }
+        }
+    };
+
+    private Handler  handler            = new Handler();
+    private Runnable runShowActionPopup = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            handler.removeCallbacks(runHideActionPopup);
+
+            m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
+
+            handler.postDelayed(runHideActionPopup, 1000);
+        }
+    };
+
+    private Runnable runHideActionPopup = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            m_actionPopup.setVisibilityWithAnimation(View.GONE);
         }
     };
 

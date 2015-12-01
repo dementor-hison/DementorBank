@@ -3,6 +3,7 @@ package kr.co.dementor.dementorbank.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -155,14 +156,10 @@ public class AuthActivity extends FragmentActivity
             switch (v.getId())
             {
                 case R.id.ivAuthStatusAnim:
-                    if (m_actionPopup.getVisibility() == View.VISIBLE)
-                    {
-                        m_actionPopup.setVisibilityWithAnimation(View.GONE);
-                    }
-                    else
-                    {
-                        m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
-                    }
+
+
+                    handler.post(runShowActionPopup);
+
                     break;
                 case R.id.ibAuthRefresh:
                     refreshAuth();
@@ -197,6 +194,30 @@ public class AuthActivity extends FragmentActivity
             }
         }
     };
+
+    private Handler  handler            = new Handler();
+    private Runnable runShowActionPopup = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            handler.removeCallbacks(runHideActionPopup);
+
+            m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
+
+            handler.postDelayed(runHideActionPopup, 1000);
+        }
+    };
+
+    private Runnable runHideActionPopup = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            m_actionPopup.setVisibilityWithAnimation(View.GONE);
+        }
+    };
+
     private ImageButton m_ibAuthGuideClose = null;
     private ImageButton m_ibAuthNeverSee   = null;
 
