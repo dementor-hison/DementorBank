@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.adapter.HelpAdapter;
 import kr.co.dementor.dementorbank.common.Defines;
 import kr.co.dementor.dementorbank.common.DementorUtil;
 import kr.co.dementor.dementorbank.common.LogTrace;
@@ -87,8 +89,7 @@ public class AuthActivity extends FragmentActivity
                     break;
 
                 case INSERTED_KEY2:
-//                    m_ivStatus.setImageLevel(currentState.nextState().getValue());
-//                    m_ivStatusAnim.setImageLevel(currentState.nextState().getValue());
+
                     m_actionPopup.setHintImage(Defines.ImagePosition.KEY3, m_dragImageId);
 
                     if (m_dragImageId != mKeys.get(Defines.ImagePosition.KEY3) && mKeys.get(Defines.ImagePosition.LOCK) != currentLockId)
@@ -220,6 +221,7 @@ public class AuthActivity extends FragmentActivity
 
     private ImageButton m_ibAuthGuideClose = null;
     private ImageButton m_ibAuthNeverSee   = null;
+    private ViewPager m_vpAuthHelpImage = null;
 
     private void hideHelp()
     {
@@ -231,6 +233,8 @@ public class AuthActivity extends FragmentActivity
     {
         m_ibKeySetting.setClickable(false);
         m_flAuthGuide.setVisibility(FrameLayout.VISIBLE);
+
+        m_vpAuthHelpImage.invalidate();
     }
 
     @Override
@@ -273,46 +277,7 @@ public class AuthActivity extends FragmentActivity
         return resultList;
     }
 
-    /*
-    private ArrayList<Integer> generateRandomList(ArrayList<Integer> fixedIconList)
-    {
-        ArrayList<Integer> resultList = new ArrayList<>(Defines.MAX_AUTH_ICON_CAPACITY);
 
-        resultList.addAll(fixedIconList);
-
-        ArrayList<Integer> allList = new ArrayList<>();
-
-        allList.addAll(Defines.RES_ID_ENG);
-
-        allList.addAll(Defines.RES_ID_HAN);
-
-        allList.addAll(Defines.RES_ID_NUM);
-
-        Collections.shuffle(allList);
-
-        for (int i = 0; i < allList.size(); i++)
-        {
-            if (resultList.contains(allList.get(i)))
-            {
-                continue;
-            }
-            else
-            {
-                resultList.add(allList.get(i));
-            }
-
-            if (resultList.size() >= Defines.MAX_AUTH_ICON_CAPACITY)
-            {
-                LogTrace.d("Item count : " + resultList.size());
-                break;
-            }
-        }
-
-        Collections.shuffle(resultList);
-
-        return resultList;
-    }
-*/
     private ArrayList<Integer> loadKeyData()
     {
         ArrayList<Integer> list = new ArrayList<>(Defines.MAX_KEY_CAPACITY);
@@ -447,6 +412,12 @@ public class AuthActivity extends FragmentActivity
         boolean isNeverSee = (boolean) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_auth), false);
 
         m_flAuthGuide.setVisibility(isNeverSee == true ? FrameLayout.GONE : FrameLayout.VISIBLE);
+
+        m_vpAuthHelpImage = (ViewPager)findViewById(R.id.vpAuthHelpImage);
+
+        HelpAdapter adapter = new HelpAdapter(getApplicationContext(), Defines.RES_ID_AUTH_HELP);
+
+        m_vpAuthHelpImage.setAdapter(adapter);
     }
 
     private void refreshAuth()

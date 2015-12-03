@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.adapter.HelpAdapter;
 import kr.co.dementor.dementorbank.common.Defines;
 import kr.co.dementor.dementorbank.common.DementorUtil;
 import kr.co.dementor.dementorbank.common.LogTrace;
@@ -186,6 +188,7 @@ public class RegistActivity extends FragmentActivity
             m_actionPopup.setVisibilityWithAnimation(View.GONE);
         }
     };
+    private ViewPager m_vpRegHelpImage = null;
 
     private void hideHelp()
     {
@@ -364,6 +367,12 @@ public class RegistActivity extends FragmentActivity
         boolean isNeverSee = (boolean)DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_regist), false);
 
         m_flGuide.setVisibility(isNeverSee == true ? FrameLayout.GONE : FrameLayout.VISIBLE);
+
+        m_vpRegHelpImage = (ViewPager)findViewById(R.id.vpRegHelpImage);
+
+        HelpAdapter adapter = new HelpAdapter(getApplicationContext(), Defines.RES_ID_REGISTER_HELP);
+
+        m_vpRegHelpImage.setAdapter(adapter);
     }
 
     private void resetRegist()

@@ -156,11 +156,12 @@
         android:id="@+id/flAuthGuide"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpAuthHelpImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/login_guide"
-            android:scaleType="fitXY"/>
+            android:layout_height="match_parent"/>
+
         <ImageButton
             android:id="@+id/ibAuthNeverSee"
             android:layout_width="105dp"

@@ -189,11 +189,10 @@
         android:id="@+id/flRegisterGuide"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpRegHelpImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/key_guide"
-            android:scaleType="fitXY"/>
+            android:layout_height="match_parent"/>
         <ImageButton
             android:id="@+id/ibRegisterNeverSee"
             android:layout_width="105dp"
