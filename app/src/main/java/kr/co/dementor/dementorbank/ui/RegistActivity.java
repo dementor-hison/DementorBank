@@ -189,6 +189,7 @@ public class RegistActivity extends FragmentActivity
         }
     };
     private ViewPager m_vpRegHelpImage = null;
+    private ImageView[] m_ivHelpDot = new ImageView[3];
 
     private void hideHelp()
     {
@@ -198,6 +199,12 @@ public class RegistActivity extends FragmentActivity
     private void showHelp()
     {
         m_flGuide.setVisibility(FrameLayout.VISIBLE);
+
+        m_vpRegHelpImage.setCurrentItem(0);
+
+        m_ivHelpDot[0].setSelected(true);
+        m_ivHelpDot[1].setSelected(false);
+        m_ivHelpDot[2].setSelected(false);
     }
 
     private ImageButton        m_ibPrevCategory          = null;
@@ -373,6 +380,15 @@ public class RegistActivity extends FragmentActivity
         HelpAdapter adapter = new HelpAdapter(getApplicationContext(), Defines.RES_ID_REGISTER_HELP);
 
         m_vpRegHelpImage.setAdapter(adapter);
+
+        m_ivHelpDot[0] = (ImageView)findViewById(R.id.ivRegisterHelpDot1);
+        m_ivHelpDot[1] = (ImageView)findViewById(R.id.ivRegisterHelpDot2);
+        m_ivHelpDot[2] = (ImageView)findViewById(R.id.ivRegisterHelpDot3);
+
+        m_vpRegHelpImage.addOnPageChangeListener(mOnPageChangeListener);
+
+        m_vpRegHelpImage.setCurrentItem(0);
+
     }
 
     private void resetRegist()
@@ -388,29 +404,27 @@ public class RegistActivity extends FragmentActivity
         m_actionPopup.clearHintImage();
     }
 
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        LogTrace.i("ResultCode : " + resultCode);
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == Activity.RESULT_OK)
-        {
-            mSelectedPrivateItems.clear();
-
-            mSelectedPrivateItems.addAll(data.getIntegerArrayListExtra("items"));
-
-            setPrivateList();
+    ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            LogTrace.d("position : " + position);
         }
 
-        if(resultCode == Activity.RESULT_CANCELED)
-        {
-            setNormalList();
+        @Override
+        public void onPageSelected(int position) {
+            LogTrace.d("position : " + position);
+            for (int i = 0 ; i < m_ivHelpDot.length ; i++)
+            {
+                m_ivHelpDot[i].setSelected(i == position);
+            }
         }
-    }
-*/
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
     private void setPrivateList()
     {
         resetRegist();

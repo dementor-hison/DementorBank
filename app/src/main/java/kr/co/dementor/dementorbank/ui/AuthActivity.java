@@ -158,7 +158,6 @@ public class AuthActivity extends FragmentActivity
             {
                 case R.id.ivAuthStatusAnim:
 
-
                     handler.post(runShowActionPopup);
 
                     break;
@@ -222,6 +221,7 @@ public class AuthActivity extends FragmentActivity
     private ImageButton m_ibAuthGuideClose = null;
     private ImageButton m_ibAuthNeverSee   = null;
     private ViewPager m_vpAuthHelpImage = null;
+    private ImageView[] m_ivHelpDot = new ImageView[3];
 
     private void hideHelp()
     {
@@ -234,7 +234,11 @@ public class AuthActivity extends FragmentActivity
         m_ibKeySetting.setClickable(false);
         m_flAuthGuide.setVisibility(FrameLayout.VISIBLE);
 
-        m_vpAuthHelpImage.invalidate();
+        m_vpAuthHelpImage.setCurrentItem(0);
+
+        m_ivHelpDot[0].setSelected(true);
+        m_ivHelpDot[1].setSelected(false);
+        m_ivHelpDot[2].setSelected(false);
     }
 
     @Override
@@ -418,6 +422,15 @@ public class AuthActivity extends FragmentActivity
         HelpAdapter adapter = new HelpAdapter(getApplicationContext(), Defines.RES_ID_AUTH_HELP);
 
         m_vpAuthHelpImage.setAdapter(adapter);
+
+        m_ivHelpDot[0] = (ImageView)findViewById(R.id.ivAuthHelpDot1);
+        m_ivHelpDot[1] = (ImageView)findViewById(R.id.ivAuthHelpDot2);
+        m_ivHelpDot[2] = (ImageView)findViewById(R.id.ivAuthHelpDot3);
+
+        m_vpAuthHelpImage.addOnPageChangeListener(mOnPageChangeListener);
+
+        m_vpAuthHelpImage.setCurrentItem(0);
+
     }
 
     private void refreshAuth()
@@ -439,4 +452,25 @@ public class AuthActivity extends FragmentActivity
         m_isAuthSuccess = true;
     }
 
+    ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            LogTrace.d("position = " + position);
+
+            for (int i = 0 ; i < m_ivHelpDot.length ; i++)
+            {
+                m_ivHelpDot[i].setSelected(i == position);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 }
