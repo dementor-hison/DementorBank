@@ -37,8 +37,12 @@
         <activity
             android:name=".ui.JajuActivity" android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ui.MediaPlayerActivity" android:screenOrientation="landscape">
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

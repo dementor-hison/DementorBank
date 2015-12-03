@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.23"
+        android:layout_weight="7.96"
         android:orientation="horizontal">
         <View
             android:layout_width="0dp"
@@ -27,12 +27,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.03"/>
+        android:layout_weight="8.29"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20"
+        android:layout_weight="20.32"
         android:orientation="horizontal">
         <View
             android:layout_width="0dp"
@@ -65,6 +65,20 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="60"/>
+        android:layout_weight="41.30"/>
+
+    <Button
+        android:id="@+id/btBankMainVideo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="14.63"
+        android:background="@android:color/transparent"/>
+
+    <!--Dummy-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.47"/>
+
 
 </LinearLayout>

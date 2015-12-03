@@ -21,6 +21,7 @@ public class SearchMyDepositActivity extends Activity
 
         findViewById(R.id.ivMoveBankMain).setOnClickListener(mOnClickListener);
         findViewById(R.id.ivMoveAuth).setOnClickListener(mOnClickListener);
+        findViewById(R.id.btMyDepositVideo).setOnClickListener(mOnClickListener);
     }
 
     View.OnClickListener mOnClickListener = new View.OnClickListener()
@@ -28,6 +29,7 @@ public class SearchMyDepositActivity extends Activity
         @Override
         public void onClick(View v)
         {
+            Intent intent = null;
             switch (v.getId())
             {
                 case R.id.ivMoveBankMain:
@@ -37,9 +39,17 @@ public class SearchMyDepositActivity extends Activity
 
                 case R.id.ivMoveAuth:
 
-                    Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+                    intent = new Intent(getApplicationContext(), AuthActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     finish();
+                    break;
+
+                case R.id.btMyDepositVideo:
+                    intent = new Intent(getApplicationContext(), MediaPlayerActivity.class);
+                    startActivity(intent);
+
+                    break;
 
                 default:
                     break;

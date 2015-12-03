@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="7.96"
         android:orientation="horizontal">
         <ImageButton
             android:id="@+id/ivMoveBankMain"
@@ -32,6 +32,16 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="90"/>
+        android:layout_weight="71.05"/>
 
+    <Button
+        android:id="@+id/btMyDepositVideo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11.86"
+        android:background="@android:color/transparent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9.10"/>
 </LinearLayout>

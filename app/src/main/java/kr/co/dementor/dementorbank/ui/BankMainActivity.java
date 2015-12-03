@@ -22,6 +22,7 @@ public class BankMainActivity extends Activity
         findViewById(R.id.ibLogOut).setOnClickListener(mOnClickListener);
         findViewById(R.id.ibSearchMyDeposit).setOnClickListener(mOnClickListener);
         findViewById(R.id.ibSimpleTransfer).setOnClickListener(mOnClickListener);
+        findViewById(R.id.btBankMainVideo).setOnClickListener(mOnClickListener);
     }
 
 
@@ -45,6 +46,10 @@ public class BankMainActivity extends Activity
 
                 case R.id.ibSimpleTransfer:
                     intent = new Intent(getApplicationContext(), SimpleTransferActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btBankMainVideo:
+                    intent = new Intent(getApplicationContext(), MediaPlayerActivity.class);
                     startActivity(intent);
                     break;
             }
