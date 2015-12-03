@@ -8,10 +8,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:largeHeap="true"
+
         >
 
         <activity
-            android:name=".ui.AuthActivity">
+            android:name=".ui.AuthActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,22 +20,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.RegistActivity">
+            android:name=".ui.RegistActivity" android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.SelectImageActivity">
+            android:name=".ui.SelectImageActivity" android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.SimpleTransferActivity">
+            android:name=".ui.SimpleTransferActivity" android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.BankMainActivity">
+            android:name=".ui.BankMainActivity" android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.SearchMyDepositActivity">
+            android:name=".ui.SearchMyDepositActivity" android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.JajuActivity">
+            android:name=".ui.JajuActivity" android:screenOrientation="portrait">
         </activity>
     </application>
 
