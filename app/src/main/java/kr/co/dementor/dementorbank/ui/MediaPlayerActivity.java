@@ -4,13 +4,12 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.MotionEvent;
-import android.view.View;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
-import android.widget.MediaController;
 
 import kr.co.dementor.dementorbank.R;
+import kr.co.dementor.dementorbank.common.LogTrace;
 
 /**
  * Created by dementor1 on 15. 12. 3..
@@ -20,6 +19,7 @@ public class MediaPlayerActivity extends FragmentActivity {
     private VideoView mVideoView = null;
     private MediaController mMediaController = null;
     private boolean mIsNeedPlay = false;
+    private int mSavedPlayTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +37,9 @@ public class MediaPlayerActivity extends FragmentActivity {
 
         mVideoView.requestFocus();
 
+        Toast.makeText(getApplicationContext(), "Back키를 눌러 Skip할 수 있습니다.", Toast.LENGTH_SHORT).show();
+
         mVideoView.setOnPreparedListener(mOnPreparedListener);
-
-        mVideoView.setClickable(true);
-
-        mVideoView.setOnTouchListener(mOnTouchListener);
 
         mVideoView.setOnCompletionListener(mOnCompletionListener);
 
@@ -52,26 +50,40 @@ public class MediaPlayerActivity extends FragmentActivity {
         mMediaController.setAnchorView(mVideoView);
 
         mVideoView.setMediaController(mMediaController);
+
         //mVideoView.setOnInfoListener(mOnInfoListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LogTrace.d("stopPlayback");
+        mVideoView.stopPlayback();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mVideoView.start();
+        if(mIsNeedPlay) {
 
-        mIsNeedPlay = false;
+            mVideoView.resume();
+
+            LogTrace.d("seekTo : " + mSavedPlayTime);
+            mVideoView.seekTo(mSavedPlayTime);
+
+            mIsNeedPlay = false;
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        mSavedPlayTime = mVideoView.getCurrentPosition();
+
+        LogTrace.d("pause : " + mSavedPlayTime);
+
         mVideoView.pause();
 
         mIsNeedPlay = true;
@@ -81,23 +93,20 @@ public class MediaPlayerActivity extends FragmentActivity {
     MediaPlayer.OnPreparedListener mOnPreparedListener =  new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
+
+            LogTrace.d("start");
             mVideoView.start();
-            Toast.makeText(getApplicationContext(), "Back키를 눌러 Skip할 수 있습니다.", Toast.LENGTH_SHORT).show();
+
         }
     };
 
-    View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            return false;
-        }
-    };
 
 
     MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+
+            LogTrace.d("finish");
             finish();
         }
     };

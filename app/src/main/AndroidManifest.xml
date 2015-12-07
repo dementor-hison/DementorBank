@@ -38,7 +38,8 @@
             android:name=".ui.JajuActivity" android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.MediaPlayerActivity" android:screenOrientation="landscape">
+            android:name=".ui.MediaPlayerActivity" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
     </application>
 
