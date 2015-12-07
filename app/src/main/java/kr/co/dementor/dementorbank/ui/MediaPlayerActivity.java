@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.VideoView;
+import android.widget.MediaController;
 
 import kr.co.dementor.dementorbank.R;
 
@@ -17,6 +18,8 @@ import kr.co.dementor.dementorbank.R;
 public class MediaPlayerActivity extends FragmentActivity {
 
     private VideoView mVideoView = null;
+    private MediaController mMediaController = null;
+    private boolean mIsNeedPlay = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,9 @@ public class MediaPlayerActivity extends FragmentActivity {
 
         mVideoView = (VideoView)findViewById(R.id.vvMediaView);
 
-        Uri uri = Uri.parse("http://www.dementor.co.kr/upload/TutorialVideo.mp4");
+        //Uri uri = Uri.parse("http://www.dementor.co.kr/upload/TutorialVideo.mp4");
+
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/"+R.raw.sample50);
 
         mVideoView.setVideoURI(uri);
 
@@ -42,6 +47,11 @@ public class MediaPlayerActivity extends FragmentActivity {
 
         mVideoView.setOnErrorListener(mOnErrorListener);
 
+        mMediaController = new MediaController(this);
+
+        mMediaController.setAnchorView(mVideoView);
+
+        mVideoView.setMediaController(mMediaController);
         //mVideoView.setOnInfoListener(mOnInfoListener);
     }
 
@@ -53,11 +63,18 @@ public class MediaPlayerActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        mVideoView.start();
+
+        mIsNeedPlay = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mVideoView.pause();
+
+        mIsNeedPlay = true;
     }
 
 
@@ -65,14 +82,14 @@ public class MediaPlayerActivity extends FragmentActivity {
         @Override
         public void onPrepared(MediaPlayer mp) {
             mVideoView.start();
+            Toast.makeText(getApplicationContext(), "Back키를 눌러 Skip할 수 있습니다.", Toast.LENGTH_SHORT).show();
         }
     };
 
     View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            mVideoView.stopPlayback();
-            finish();
+
             return false;
         }
     };
