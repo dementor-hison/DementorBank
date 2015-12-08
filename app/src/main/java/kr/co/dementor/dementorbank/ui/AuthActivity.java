@@ -126,29 +126,28 @@ public class AuthActivity extends FragmentActivity
             }
         }
     };
-    TopView.OnTopViewListener     mOnTopViewListener = new TopView.OnTopViewListener()
+    private FrameLayout m_flAuthGuide = null;
+    private Handler  handler            = new Handler();
+    private Runnable runHideActionPopup = new Runnable()
     {
         @Override
-        public void OnBack()
+        public void run()
         {
-            refreshAuth();
-
-            finish();
+            m_actionPopup.setVisibilityWithAnimation(View.GONE);
         }
-
-        @Override
-        public void OnRefresh() {}
-
-        @Override
-        public void OnHelp()
-        {
-            showHelp();
-        }
-
-        @Override
-        public void OnConfirm() {}
     };
-    private FrameLayout m_flAuthGuide = null;
+    private Runnable runShowActionPopup = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            handler.removeCallbacks(runHideActionPopup);
+
+            m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
+
+            handler.postDelayed(runHideActionPopup, 1000);
+        }
+    };
     View.OnClickListener mOnClickListener = new View.OnClickListener()
     {
         @Override
@@ -194,34 +193,57 @@ public class AuthActivity extends FragmentActivity
             }
         }
     };
-
-    private Handler  handler            = new Handler();
-    private Runnable runShowActionPopup = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            handler.removeCallbacks(runHideActionPopup);
-
-            m_actionPopup.setVisibilityWithAnimation(View.VISIBLE);
-
-            handler.postDelayed(runHideActionPopup, 1000);
-        }
-    };
-
-    private Runnable runHideActionPopup = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            m_actionPopup.setVisibilityWithAnimation(View.GONE);
-        }
-    };
-
     private ImageButton m_ibAuthGuideClose = null;
     private ImageButton m_ibAuthNeverSee   = null;
-    private ViewPager m_vpAuthHelpImage = null;
-    private ImageView[] m_ivHelpDot = new ImageView[3];
+    private ViewPager   m_vpAuthHelpImage  = null;
+    private ImageView[] m_ivHelpDot        = new ImageView[3];
+    TopView.OnTopViewListener     mOnTopViewListener = new TopView.OnTopViewListener()
+    {
+        @Override
+        public void OnBack()
+        {
+            refreshAuth();
+
+            finish();
+        }
+
+        @Override
+        public void OnRefresh() {}
+
+        @Override
+        public void OnHelp()
+        {
+            showHelp();
+        }
+
+        @Override
+        public void OnConfirm() {}
+    };
+    ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener()
+    {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+
+        }
+
+        @Override
+        public void onPageSelected(int position)
+        {
+            LogTrace.d("position = " + position);
+
+            for (int i = 0; i < m_ivHelpDot.length; i++)
+            {
+                m_ivHelpDot[i].setSelected(i == position);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state)
+        {
+
+        }
+    };
 
     private void hideHelp()
     {
@@ -250,13 +272,13 @@ public class AuthActivity extends FragmentActivity
 
         boolean isKeyRegisted = (boolean) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_is_regist), false);
 
+        initView();
+
         if (isKeyRegisted == false)
         {
             showRegistDialog();
             return;
         }
-
-        initView();
 
         mKeys.addAll(loadKeyData());
 
@@ -280,7 +302,6 @@ public class AuthActivity extends FragmentActivity
 
         return resultList;
     }
-
 
     private ArrayList<Integer> loadKeyData()
     {
@@ -413,23 +434,26 @@ public class AuthActivity extends FragmentActivity
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
 
-        boolean isNeverSee = (boolean) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_auth), false);
-
-        m_flAuthGuide.setVisibility(isNeverSee == true ? FrameLayout.GONE : FrameLayout.VISIBLE);
-
-        m_vpAuthHelpImage = (ViewPager)findViewById(R.id.vpAuthHelpImage);
+        m_vpAuthHelpImage = (ViewPager) findViewById(R.id.vpAuthHelpImage);
 
         HelpAdapter adapter = new HelpAdapter(getApplicationContext(), Defines.RES_ID_AUTH_HELP);
 
         m_vpAuthHelpImage.setAdapter(adapter);
 
-        m_ivHelpDot[0] = (ImageView)findViewById(R.id.ivAuthHelpDot1);
-        m_ivHelpDot[1] = (ImageView)findViewById(R.id.ivAuthHelpDot2);
-        m_ivHelpDot[2] = (ImageView)findViewById(R.id.ivAuthHelpDot3);
+        m_ivHelpDot[0] = (ImageView) findViewById(R.id.ivAuthHelpDot1);
+        m_ivHelpDot[1] = (ImageView) findViewById(R.id.ivAuthHelpDot2);
+        m_ivHelpDot[2] = (ImageView) findViewById(R.id.ivAuthHelpDot3);
 
         m_vpAuthHelpImage.addOnPageChangeListener(mOnPageChangeListener);
 
         m_vpAuthHelpImage.setCurrentItem(0);
+
+        boolean isNeverSee = (boolean) DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_auth), false);
+
+        if(isNeverSee == false)
+        {
+            showHelp();
+        }
 
     }
 
@@ -451,26 +475,4 @@ public class AuthActivity extends FragmentActivity
 
         m_isAuthSuccess = true;
     }
-
-    ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            LogTrace.d("position = " + position);
-
-            for (int i = 0 ; i < m_ivHelpDot.length ; i++)
-            {
-                m_ivHelpDot[i].setSelected(i == position);
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
 }

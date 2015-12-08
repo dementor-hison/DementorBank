@@ -205,16 +205,22 @@
                 android:id="@+id/ivRegisterHelpDot1"
                 android:layout_width="9.5dp"
                 android:layout_height="9.5dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/dot_sel"/>
             <ImageView
                 android:id="@+id/ivRegisterHelpDot2"
                 android:layout_width="9.5dp"
                 android:layout_height="9.5dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/dot_sel"/>
             <ImageView
                 android:id="@+id/ivRegisterHelpDot3"
+                android:layout_width="9.5dp"
+                android:layout_height="9.5dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/dot_sel"/>
+            <ImageView
+                android:id="@+id/ivRegisterHelpDot4"
                 android:layout_width="9.5dp"
                 android:layout_height="9.5dp"
                 android:background="@drawable/dot_sel"/>

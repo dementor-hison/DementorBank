@@ -18,6 +18,7 @@ public class CustomGridViewAdapter extends BaseAdapter
 {
     private ArrayList<Integer> mListItems = new ArrayList<Integer>();
 
+
     public void setItemArrayList(ArrayList<Integer> listItem)
     {
         mListItems.clear();
@@ -30,7 +31,6 @@ public class CustomGridViewAdapter extends BaseAdapter
 
         mListItems.addAll(listItem);
     }
-
     public ArrayList<Integer> getListItems()
     {
         return mListItems;

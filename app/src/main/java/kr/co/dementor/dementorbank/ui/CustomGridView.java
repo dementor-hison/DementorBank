@@ -241,7 +241,7 @@ public class CustomGridView extends FrameLayout
 
         mIvDragView = (SquareImageView) findViewById(R.id.ivDrag);
 
-        mIvScrollMore = (ImageView)findViewById(R.id.ivScrollMore);
+        mIvScrollMore = (ImageView) findViewById(R.id.ivScrollMore);
 
         mGridViewAdapter = new CustomGridViewAdapter();
 
@@ -252,6 +252,11 @@ public class CustomGridView extends FrameLayout
         mGridView.setOnItemClickListener(mOnItemClickListener);
 
         mGridView.setOnScrollListener(mOnScrollListener);
+    }
+
+    public ArrayList<Integer> getGridViewItems()
+    {
+        return mGridViewAdapter.getListItems();
     }
 
     public void setGridViewItems(ArrayList<Integer> listBitmaps)
@@ -265,11 +270,6 @@ public class CustomGridView extends FrameLayout
         mGridViewAdapter.setItemArrayList(listBitmaps);
 
         mGridViewAdapter.notifyDataSetChanged();
-    }
-
-    public ArrayList<Integer> getGridViewItems()
-    {
-        return  mGridViewAdapter.getListItems();
     }
 
     public void setOnDragListener(CustomGridView.OnDragListener listener)

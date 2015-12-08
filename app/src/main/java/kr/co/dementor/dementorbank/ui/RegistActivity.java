@@ -189,7 +189,7 @@ public class RegistActivity extends FragmentActivity
         }
     };
     private ViewPager m_vpRegHelpImage = null;
-    private ImageView[] m_ivHelpDot = new ImageView[3];
+    private ImageView[] m_ivHelpDot = new ImageView[4];
 
     private void hideHelp()
     {
@@ -205,6 +205,7 @@ public class RegistActivity extends FragmentActivity
         m_ivHelpDot[0].setSelected(true);
         m_ivHelpDot[1].setSelected(false);
         m_ivHelpDot[2].setSelected(false);
+        m_ivHelpDot[3].setSelected(false);
     }
 
     private ImageButton        m_ibPrevCategory          = null;
@@ -371,10 +372,6 @@ public class RegistActivity extends FragmentActivity
 
         mAniFadeInOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_inout);
 
-        boolean isNeverSee = (boolean)DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_regist), false);
-
-        m_flGuide.setVisibility(isNeverSee == true ? FrameLayout.GONE : FrameLayout.VISIBLE);
-
         m_vpRegHelpImage = (ViewPager)findViewById(R.id.vpRegHelpImage);
 
         HelpAdapter adapter = new HelpAdapter(getApplicationContext(), Defines.RES_ID_REGISTER_HELP);
@@ -384,11 +381,18 @@ public class RegistActivity extends FragmentActivity
         m_ivHelpDot[0] = (ImageView)findViewById(R.id.ivRegisterHelpDot1);
         m_ivHelpDot[1] = (ImageView)findViewById(R.id.ivRegisterHelpDot2);
         m_ivHelpDot[2] = (ImageView)findViewById(R.id.ivRegisterHelpDot3);
+        m_ivHelpDot[3] = (ImageView)findViewById(R.id.ivRegisterHelpDot4);
 
         m_vpRegHelpImage.addOnPageChangeListener(mOnPageChangeListener);
 
         m_vpRegHelpImage.setCurrentItem(0);
 
+        boolean isNeverSee = (boolean)DementorUtil.loadPreferance(getApplicationContext(), getString(R.string.preference_key_never_see_regist), false);
+
+        if(isNeverSee == false)
+        {
+            showHelp();
+        }
     }
 
     private void resetRegist()
