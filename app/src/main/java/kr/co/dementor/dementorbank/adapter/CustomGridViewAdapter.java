@@ -31,6 +31,7 @@ public class CustomGridViewAdapter extends BaseAdapter
 
         mListItems.addAll(listItem);
     }
+
     public ArrayList<Integer> getListItems()
     {
         return mListItems;

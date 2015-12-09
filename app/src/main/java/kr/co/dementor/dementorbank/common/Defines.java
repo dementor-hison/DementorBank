@@ -24,9 +24,11 @@ public class Defines
     public static final ArrayList<Integer> RES_ID_AUTH_HELP = new ArrayList<Integer>
             (
                     Arrays.asList
-                            (R.drawable.login_guide,
-                             R.drawable.login_guide,
-                             R.drawable.login_guide)
+                            (R.drawable.login00,
+                             R.drawable.login01,
+                             R.drawable.login02,
+                             R.drawable.login03,
+                             R.drawable.login04)
             );
 
     public static final ArrayList<Integer> RES_ID_REGISTER_HELP = new ArrayList<Integer>

@@ -196,7 +196,7 @@ public class AuthActivity extends FragmentActivity
     private ImageButton m_ibAuthGuideClose = null;
     private ImageButton m_ibAuthNeverSee   = null;
     private ViewPager   m_vpAuthHelpImage  = null;
-    private ImageView[] m_ivHelpDot        = new ImageView[3];
+    private ImageView[] m_ivHelpDot        = new ImageView[Defines.RES_ID_AUTH_HELP.size()];
     TopView.OnTopViewListener     mOnTopViewListener = new TopView.OnTopViewListener()
     {
         @Override
@@ -261,6 +261,8 @@ public class AuthActivity extends FragmentActivity
         m_ivHelpDot[0].setSelected(true);
         m_ivHelpDot[1].setSelected(false);
         m_ivHelpDot[2].setSelected(false);
+        m_ivHelpDot[3].setSelected(false);
+        m_ivHelpDot[4].setSelected(false);
     }
 
     @Override
@@ -443,6 +445,8 @@ public class AuthActivity extends FragmentActivity
         m_ivHelpDot[0] = (ImageView) findViewById(R.id.ivAuthHelpDot1);
         m_ivHelpDot[1] = (ImageView) findViewById(R.id.ivAuthHelpDot2);
         m_ivHelpDot[2] = (ImageView) findViewById(R.id.ivAuthHelpDot3);
+        m_ivHelpDot[3] = (ImageView) findViewById(R.id.ivAuthHelpDot4);
+        m_ivHelpDot[4] = (ImageView) findViewById(R.id.ivAuthHelpDot5);
 
         m_vpAuthHelpImage.addOnPageChangeListener(mOnPageChangeListener);
 

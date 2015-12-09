@@ -172,16 +172,28 @@
                 android:id="@+id/ivAuthHelpDot1"
                 android:layout_width="9.5dp"
                 android:layout_height="9.5dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/dot_sel"/>
             <ImageView
                 android:id="@+id/ivAuthHelpDot2"
                 android:layout_width="9.5dp"
                 android:layout_height="9.5dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/dot_sel"/>
             <ImageView
                 android:id="@+id/ivAuthHelpDot3"
+                android:layout_width="9.5dp"
+                android:layout_height="9.5dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/dot_sel"/>
+            <ImageView
+                android:id="@+id/ivAuthHelpDot4"
+                android:layout_width="9.5dp"
+                android:layout_height="9.5dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/dot_sel"/>
+            <ImageView
+                android:id="@+id/ivAuthHelpDot5"
                 android:layout_width="9.5dp"
                 android:layout_height="9.5dp"
                 android:background="@drawable/dot_sel"/>

@@ -189,7 +189,7 @@ public class RegistActivity extends FragmentActivity
         }
     };
     private ViewPager m_vpRegHelpImage = null;
-    private ImageView[] m_ivHelpDot = new ImageView[4];
+    private ImageView[] m_ivHelpDot = new ImageView[Defines.RES_ID_REGISTER_HELP.size()];
 
     private void hideHelp()
     {
