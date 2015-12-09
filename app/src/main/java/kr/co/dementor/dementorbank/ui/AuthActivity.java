@@ -458,6 +458,10 @@ public class AuthActivity extends FragmentActivity
         {
             showHelp();
         }
+        else
+        {
+            hideHelp();
+        }
 
     }
 
