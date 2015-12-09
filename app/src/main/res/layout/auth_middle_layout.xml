@@ -33,13 +33,13 @@
 
     <!-- left side width:223px -->
     <ImageButton
-        android:id="@+id/ibAuthSecurityLevel"
+        android:id="@+id/ibAuthMovieGuide"
         android:layout_width="111.5dp"
         android:layout_height="match_parent"
         android:layout_toLeftOf="@id/flAuthStatus"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        android:src="@drawable/secure1_sel" />
+        android:src="@drawable/movie_guide_sel" />
 
     <!-- right side width:223px -->
     <ImageButton

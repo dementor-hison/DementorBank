@@ -42,11 +42,11 @@ public class AuthActivity extends FragmentActivity
     private Animation          mAniFadeInOut        = null;
     private AlertDialog        mAlertDialog         = null;
     private ImageButton        m_ibRefresh          = null;
-    private ImageButton        m_ibSecurityLevel    = null;
+    private ImageButton        m_ibMovieGuide       = null;
     private ImageButton        m_ibKeySetting       = null;
     private ImageButton        m_ibIconSetting      = null;
     private ActionPopup        m_actionPopup        = null;
-    CustomGridView.OnDragListener mOnDragListener    = new CustomGridView.OnDragListener()
+    CustomGridView.OnDragListener mOnDragListener = new CustomGridView.OnDragListener()
     {
         @Override
         public void OnDragStart(int position, int resId)
@@ -126,9 +126,9 @@ public class AuthActivity extends FragmentActivity
             }
         }
     };
-    private FrameLayout m_flAuthGuide = null;
-    private Handler  handler            = new Handler();
-    private Runnable runHideActionPopup = new Runnable()
+    private FrameLayout m_flAuthGuide      = null;
+    private Handler     handler            = new Handler();
+    private Runnable    runHideActionPopup = new Runnable()
     {
         @Override
         public void run()
@@ -136,7 +136,7 @@ public class AuthActivity extends FragmentActivity
             m_actionPopup.setVisibilityWithAnimation(View.GONE);
         }
     };
-    private Runnable runShowActionPopup = new Runnable()
+    private Runnable    runShowActionPopup = new Runnable()
     {
         @Override
         public void run()
@@ -153,6 +153,8 @@ public class AuthActivity extends FragmentActivity
         @Override
         public void onClick(View v)
         {
+            Intent intent = null;
+
             switch (v.getId())
             {
                 case R.id.ivAuthStatusAnim:
@@ -164,11 +166,19 @@ public class AuthActivity extends FragmentActivity
                     refreshAuth();
                     break;
 
-                case R.id.ibAuthSecurityLevel:
+                case R.id.ibAuthMovieGuide:
+                    intent = new Intent(getApplicationContext(), MediaPlayerActivity.class);
+                    startActivity(intent);
+
+                    if (mAlertDialog != null && mAlertDialog.isShowing())
+                    {
+                        mAlertDialog.dismiss();
+                    }
+
                     break;
 
                 case R.id.ibAuthKeySetting:
-                    Intent intent = new Intent(getApplicationContext(), RegistActivity.class);
+                    intent = new Intent(getApplicationContext(), RegistActivity.class);
                     startActivity(intent);
 
                     if (mAlertDialog != null && mAlertDialog.isShowing())
@@ -197,7 +207,7 @@ public class AuthActivity extends FragmentActivity
     private ImageButton m_ibAuthNeverSee   = null;
     private ViewPager   m_vpAuthHelpImage  = null;
     private ImageView[] m_ivHelpDot        = new ImageView[Defines.RES_ID_AUTH_HELP.size()];
-    TopView.OnTopViewListener     mOnTopViewListener = new TopView.OnTopViewListener()
+    TopView.OnTopViewListener      mOnTopViewListener    = new TopView.OnTopViewListener()
     {
         @Override
         public void OnBack()
@@ -394,7 +404,7 @@ public class AuthActivity extends FragmentActivity
 
         m_ibRefresh = (ImageButton) findViewById(R.id.ibAuthRefresh);
 
-        m_ibSecurityLevel = (ImageButton) findViewById(R.id.ibAuthSecurityLevel);
+        m_ibMovieGuide = (ImageButton) findViewById(R.id.ibAuthMovieGuide);
 
         m_ibKeySetting = (ImageButton) findViewById(R.id.ibAuthKeySetting);
 
@@ -422,7 +432,7 @@ public class AuthActivity extends FragmentActivity
 
         m_ibRefresh.setOnClickListener(mOnClickListener);
 
-        m_ibSecurityLevel.setOnClickListener(mOnClickListener);
+        m_ibMovieGuide.setOnClickListener(mOnClickListener);
 
         m_ibKeySetting.setOnClickListener(mOnClickListener);
 
