@@ -43,6 +43,7 @@ public class TopView extends LinearLayout
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.TopViewAttr);
 
         setTitle(array.getString(R.styleable.TopViewAttr_titleText));
+        array.recycle();
     }
 
     public TopView(Context context, AttributeSet attrs, int defStyleAttr)
@@ -56,6 +57,7 @@ public class TopView extends LinearLayout
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.TopViewAttr);
 
         setTitle(array.getString(R.styleable.TopViewAttr_titleText));
+        array.recycle();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -70,6 +72,7 @@ public class TopView extends LinearLayout
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.TopViewAttr);
 
         setTitle(array.getString(R.styleable.TopViewAttr_titleText));
+        array.recycle();
     }
 
     private View createView(Context context)
@@ -125,7 +128,7 @@ public class TopView extends LinearLayout
 
     private void setTitle(String title)
     {
-        ((TextView) findViewById(R.id.tvTopViewTitle)).setText(title);
+        ((TextView) findViewById(R.id.tvTopTitle)).setText(title);
     }
 
     public void setOnTopViewListener(OnTopViewListener listener)

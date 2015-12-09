@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- middle  start  height:304px-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="122dp"
+    android:background="@color/color247247247"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp">
+
+    <!-- center width:274px -->
+    <FrameLayout
+        android:id="@+id/flAuthStatus"
+        android:layout_width="137dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/ivAuthStatus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/list_auth_status" />
+
+        <ImageView
+            android:id="@+id/ivAuthStatusAnim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/list_auth_status_anim" />
+    </FrameLayout>
+
+    <!-- left side width:223px -->
+    <ImageButton
+        android:id="@+id/ibAuthSecurityLevel"
+        android:layout_width="111.5dp"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/flAuthStatus"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/secure1_sel" />
+
+    <!-- right side width:223px -->
+    <ImageButton
+        android:id="@+id/ibAuthRefresh"
+        android:layout_width="111.5dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/flAuthStatus"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/refresh2_sel" />
+</RelativeLayout>
+

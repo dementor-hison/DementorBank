@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:top="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent"
+             android:background="@color/color247247247">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,13 +11,12 @@
 
         <!-- height : 400px-->
         <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="32.52">
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <kr.co.dementor.dementorbank.ui.TopView
@@ -27,55 +27,7 @@
                 </kr.co.dementor.dementorbank.ui.TopView>
 
                 <!-- middle  start  height:304px-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="26.80"
-                    android:background="@color/color247247247"
-                    android:orientation="horizontal"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
-                    <!-- left side width:223px -->
-                    <ImageButton
-                        android:id="@+id/ibAuthSecurityLevel"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="30.97"
-                        android:background="@android:color/transparent"
-                        android:clickable="false"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/secure1_sel"/>
-
-                    <!-- center width:274px -->
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="38.05">
-
-                        <ImageView
-                            android:id="@+id/ivAuthStatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/list_auth_status"/>
-
-                        <ImageView
-                            android:id="@+id/ivAuthStatusAnim"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/list_auth_status_anim"/>
-                    </FrameLayout>
-                    <!-- right side width:223px -->
-                    <ImageButton
-                        android:id="@+id/ibAuthRefresh"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="30.97"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/refresh2_sel"/>
-                </LinearLayout>
+                <include layout="@layout/auth_middle_layout" />
                 <!-- middle  end-->
                 <ImageView
                     android:layout_width="match_parent"
@@ -83,27 +35,20 @@
                     android:src="@color/color220220220"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <!--height:196px-->
-                <kr.co.dementor.dementorbank.ui.ActionPopup
-                    android:id="@+id/authActionPopup"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="50"
-                    android:paddingTop="6.5dp"
-                    android:paddingLeft="6.5dp"
-                    android:paddingRight="6.5dp"
-                    android:background="@drawable/hint_back_center"
-                    android:visibility="gone"/>
-                <!--height:204px-->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="50"/>
-            </LinearLayout>
+            <!--height:196px-->
+            <kr.co.dementor.dementorbank.ui.ActionPopup
+                android:id="@+id/authActionPopup"
+                android:layout_width="345.5dp"
+                android:layout_height="97.5dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="6.5dp"
+                android:background="@drawable/hint_back_center"
+                android:orientation="horizontal"
+                android:paddingBottom="22dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="12.5dp"
+                android:visibility="gone"/>
         </FrameLayout>
 
 
@@ -112,24 +57,22 @@
             android:id="@+id/gvAuthGridView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="59.34"
+            android:layout_weight="1"
             android:background="@android:color/white"
             android:padding="15dp">
         </kr.co.dementor.dementorbank.ui.CustomGridView>
 
         <!-- footer height:100px -->
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8.13"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
+            android:layout_height="50dp"
+            android:background="@android:color/white">
 
             <ImageButton
                 android:id="@+id/ibAuthKeySetting"
-                android:layout_width="0dp"
+                android:layout_width="111dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30.87"
+                android:layout_alignParentLeft="true"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:src="@drawable/keysetting_sel"/>
@@ -141,14 +84,14 @@
 
             <ImageButton
                 android:id="@+id/ibAuthIconSetting"
-                android:layout_width="0dp"
+                android:layout_width="111dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30.87"
+                android:layout_alignParentRight="true"
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/iconsetting_sel"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <!-- help -->
