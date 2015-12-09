@@ -393,6 +393,10 @@ public class RegistActivity extends FragmentActivity
         {
             showHelp();
         }
+        else
+        {
+            hideHelp();
+        }
     }
 
     private void resetRegist()
