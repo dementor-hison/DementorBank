@@ -366,6 +366,8 @@ public class RegistActivity extends FragmentActivity
 
         mRegistTopview.setRefreshButtonVisible(true);
 
+        mRegistTopview.setHelpButtonBackground(R.drawable.quest_sel, DementorUtil.dpToPx(34));
+
         mRegistTopview.setConfirmButtonVisible(false);
 
         mRegistTopview.setHelpButtonVisible(true);

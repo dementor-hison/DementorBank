@@ -34,7 +34,6 @@
             android:id="@+id/ibHelp"
             android:layout_width="51.5dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:background="@drawable/quest_re_sel"/>
 
         <ImageButton
