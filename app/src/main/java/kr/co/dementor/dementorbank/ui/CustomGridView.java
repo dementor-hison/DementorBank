@@ -87,10 +87,10 @@ public class CustomGridView extends FrameLayout
                         m_iSelectedIconPosition = AdapterView.INVALID_POSITION;
 
                         m_iTargetIconPosition = AdapterView.INVALID_POSITION;
-                    }
 
-                    Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                    vib.vibrate(200);
+                        Vibrator vib = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                        vib.vibrate(200);
+                    }
 
                     removeImage();
 
